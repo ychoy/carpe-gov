@@ -1,2 +1,2 @@
 var mongoose = require("mongoose");
-mongoose.connect( process.env.MONGODB_URI || "mongodb://localhost/carpegov-app");
+mongoose.connect( process.env.MONGODB_URI || "mongodb://localhost/carpegov");
