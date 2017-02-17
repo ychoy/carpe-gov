@@ -7,7 +7,7 @@ $(document).ready(function() {
     success: renderMultipleBills
   });
 
-  $('#album-form form').on('submit', function(e) {
+  $('#bill-form form').on('submit', function(e) {
     e.preventDefault();
     var formData = $(this).serialize();
     console.log('formData', formData);

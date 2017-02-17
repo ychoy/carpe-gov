@@ -11,86 +11,111 @@
 
   <!-- SCRIPTS -->
   <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
-
-
+  <script src="/scripts/app.js"></script>
   </head>
 
-  <body>
-    <div class="container">
-      <h1 class="text-center">CarpeGov</h1>
-      <div class="row">
-        <div class="col-md-10">
-          <h3>Bill 1</h3>
-          <h3>Summary</h3>
-          <button type="submit" class="btn btn-default text-right">Edit</button>
-        </div>
+<body>
+    <div class="jumbotron">
+      <div class="container">
+        <h1>CarpeGov</h1>
+        <p>Take action on education!</p>
       </div>
+    </div>
 
+		<!-- BEGIN FORM SAMPLE -->
 
-
-      <div class="row" min-height="300px">
-        <div class="col-md-10">
-          <h3>Bill 2</h3>
-          <h3>Summary</h3>
-
-          <button type="submit" class="btn btn-default">Edit</button>
-        </div>
-      </div>
-
-
-
+    <section id='bill-form' class="container">
       <div class="row">
-        <div class="col-md-10">
-          <h3>Bill 3</h3>
-          <h3>Summary</h3>
-          <button type="submit" class="btn btn-default">Edit</button>
-        </div>
-      </div>
+      <div class="col-md-10 col-md-offset-1">
 
-      <div class="row">
-        <div class="col-md-10 form-group">
-          <h3>Bill 4</h3>
-          <h3>Summary</h3>
-          <button type="submit" class="btn btn-default">Edit</button>
-        </div>
-      </div>
+        <form class="form-horizontal">
+          <fieldset>
 
-      <div class="row">
-        <div class="col-md-10 form-group">
-          <h3>Bill 5</h3>
-          <h3>Summary</h3>
-          <button type="submit" class="btn btn-default">Edit</button>
-        </div>
-      </div>
+            <!-- Form Name -->
+            <legend>Add New Bill</legend>
 
-      <div class="row">
-        <form>
-          <div class="form-group has-error has-feedback">
-            <label class="col-sm-2 control-label">Title</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="billTitleInput" placeholder="H.R. 12345">
-            </div>
-          </div>
-          <div class="form-group has-error has-feedback">
-            <label class="col-sm-2 control-label">Summary</label>
-            <div class="col-sm-10">
-              <textarea type="summary" class="form-control has-success has-feedback" rows="6" id="billSummaryInput" placeholder="Summary">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <div class="checkbox">
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="name">Bill Title</label>
+              <div class="col-md-4">
+              <input id="billTitle" name="bill-title" type="text" placeholder="" class="form-control input-md" required="">
+
               </div>
             </div>
-          </div>
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <button type="submit" class="btn btn-default">Save</button>
-              <button type="submit" class="btn btn-default">Delete</button>
-            </div>
-          </div>
-        </form>
 
-    </div>
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="billSummary">Bill Summary</label>
+              <div class="col-md-4">
+              <input id="billSummary" name="bill-summary" type="text" placeholder="Bill Summary" class="form-control input-md">
+
+              </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="billSponsor">Bill Sponsor</label>
+              <div class="col-md-4">
+              <input id="billSponsor" name="bill-sponsor" type="text" placeholder="Bill Sponsor" class="form-control input-md">
+
+              </div>
+            </div>
+
+  					<!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="latestAction">Latest Action</label>
+              <div class="col-md-4">
+              <input id="latestAction" name="bill-latestAction" type="text" placeholder="Latest Action" class="form-control input-md">
+
+              </div>
+            </div>
+            </div>
+
+
+
+            <!-- Button -->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="singlebutton">Save Album</label>
+              <div class="col-md-4">
+                <button id="singlebutton" name="singlebutton" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      </div>
+    </section>
+
+     <!--   END FORM SAMPLE -->
+
+
+
+
+
+
+    <section class="container">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <h2>Bills</h2>
+        </div>
+      </div>
+
+      <!-- billscontainer! -->
+      <div id='bills'></div>
+
+    </section>
+
   </body>
+
+
+
+
+
+
+
+
+
+
+
+
 </html>
