@@ -8,13 +8,14 @@
 
   <!-- STYLESHEETS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/styles/styles.css">
 
   <!-- SCRIPTS -->
   <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script src="/scripts/app.js"></script>
   </head>
 
-<body>
+  <body>
     <div class="jumbotron">
       <div class="container">
         <div class="col-md-offset-1">
@@ -24,76 +25,69 @@
       </div>
     </div>
 
-		<!-- BEGIN FORM SAMPLE -->
+		<!-- BEGIN FORM -->
 
     <section id='bill-form' class="container">
       <div class="row">
-      <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-10 col-md-offset-1">
 
-        <form class="form-horizontal">
-          <fieldset>
+          <form class="form-horizontal">
+            <fieldset>
 
-            <!-- Form Name -->
-            <legend>Add New Bill</legend>
+              <!-- Form Name -->
+              <legend>Add New Bill</legend>
 
-            <!-- Text input-->
-            <div class="form-group">
-              <label class="col-md-4 control-label" for="name">Bill Title</label>
-              <div class="col-md-4">
-              <input id="billTitle" name="bill-title" type="text" placeholder="" class="form-control input-md" required="">
+              <!-- Text input-->
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="name">Bill Title</label>
+                <div class="col-md-4">
+                <input id="billTitle" name="bill-title" type="text" placeholder="" class="form-control input-md" required="">
 
+                </div>
               </div>
-            </div>
 
-            <!-- Text input-->
-            <div class="form-group">
-              <label class="col-md-4 control-label" for="billSummary">Bill Summary</label>
-              <div class="col-md-4">
-              <input id="billSummary" name="bill-summary" type="text" placeholder="Bill Summary" class="form-control input-md">
+              <!-- Text input-->
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="billSummary">Bill Summary</label>
+                <div class="col-md-4">
+                <input id="billSummary" name="bill-summary" type="text" placeholder="Bill Summary" class="form-control input-md">
 
+                </div>
               </div>
-            </div>
 
-            <!-- Text input-->
-            <div class="form-group">
-              <label class="col-md-4 control-label" for="billSponsor">Bill Sponsor</label>
-              <div class="col-md-4">
-              <input id="billSponsor" name="bill-sponsor" type="text" placeholder="Bill Sponsor" class="form-control input-md">
+              <!-- Text input-->
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="billSponsor">Bill Sponsor</label>
+                <div class="col-md-4">
+                <input id="billSponsor" name="bill-sponsor" type="text" placeholder="Bill Sponsor" class="form-control input-md">
 
+                </div>
               </div>
-            </div>
 
-  					<!-- Text input-->
-            <div class="form-group">
-              <label class="col-md-4 control-label" for="latestAction">Latest Action</label>
-              <div class="col-md-4">
-              <input id="latestAction" name="bill-latestAction" type="text" placeholder="Latest Action" class="form-control input-md">
+    					<!-- Text input-->
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="latestAction">Latest Action</label>
+                <div class="col-md-4">
+                <input id="latestAction" name="bill-latestAction" type="text" placeholder="Latest Action" class="form-control input-md">
 
+                </div>
               </div>
-            </div>
-            </div>
 
-
-
-            <!-- Button -->
-            <div class="form-group">
-              <label class="col-md-4 control-label" for="singlebutton"></label>
-              <div class="col-md-4">
-                <button id="singlebutton" name="singlebutton" class="btn btn-primary">Submit</button>
+              <!-- Button -->
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="singlebutton"></label>
+                <div class="col-md-4">
+                  <button id="singlebutton" name="singlebutton" class="btn btn-primary">Submit</button>
+                </div>
               </div>
-            </div>
-          </fieldset>
-        </form>
-      </div>
+
+
+            </fieldset>
+          </form>
+        </div>
       </div>
     </section>
-
-     <!--   END FORM SAMPLE -->
-
-
-
-
-
+     <!--   END FORM   -->
 
     <section class="container">
       <div class="row">
@@ -103,21 +97,9 @@
       </div>
 
       <!-- billscontainer! -->
-      <div id='bills'></div>
+      <div id='bills'>
+      </div>
 
     </section>
-
   </body>
-
-
-
-
-
-
-
-
-
-
-
-
 </html>
