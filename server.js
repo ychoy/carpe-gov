@@ -19,6 +19,8 @@ app.get('/api', controllers.api.index);
 
 app.get('/api/bills', controllers.bills.index);
 
-app.put('/api/bills/:billId', controllers.bills.update);
+app.get('/api/bills/:billId', controllers.bills.show);
+
+app.post('/api/bills', controllers.bills.create);
 
 app.listen(process.env.PORT || 3000);
