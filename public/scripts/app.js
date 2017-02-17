@@ -7,7 +7,7 @@ $(document).ready(function() {
     success: renderMultipleBills
   });
 
-  $('#bill-form form').on('submit', function(e) {
+  $('#bill-form').on('submit', function(e) {
     e.preventDefault();
     var formData = $(this).serialize();
     console.log('formData', formData);
@@ -51,7 +51,7 @@ function renderBill(bill) {
                     <span class='bill-sponsor'>${bill.sponsor}</span>
                   </li>
                   <li class="list-group-item">
-                    <a href=<h4 class='inline-header'>Text:</h4>${bill.textUrl}>
+                    <h4 class='inline-header'>Text:<a href=${bill.textUrl}> Read Text</a></h4>
                   </li>
                   <li class="list-group-item">
                     <h4 class='inline-header'>Latest Action:</h4>

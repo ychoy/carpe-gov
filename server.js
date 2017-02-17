@@ -1,7 +1,7 @@
 var express = require('express'),
   app = express(),
   bodyParser = require('body-parser'),
-  mongoose = require('mongoose'); 
+  mongoose = require('mongoose');
 
   // serve static files from public folder
   app.use(express.static(__dirname + '/public'));
@@ -18,5 +18,9 @@ app.get('/', function (req, res) {
 app.get('/api', controllers.api.index);
 
 app.get('/api/bills', controllers.bills.index);
+
+app.get('/api/bills/:billId', controllers.bills.show);
+
+app.post('/api/bills', controllers.bills.create);
 
 app.listen(process.env.PORT || 3000);
