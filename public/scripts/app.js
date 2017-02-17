@@ -21,7 +21,7 @@ $(document).ready(function() {
 
 
 function renderMultipleBills(bills) {
-  bills.forEach(function(bills) {
+  bills.forEach(function(bill) {
     renderBill(bill);
   });
 }
@@ -30,21 +30,13 @@ function renderBill(bill) {
   console.log('rendering bill', bill);
 
   var billHtml = (`
-    <div class="row">
-      <div class="col-md-10">
-        <h3>Bill 1</h3>
-        <h3>Summary</h3>
-        <button type="submit" class="btn btn-default text-right">Edit</button>
-      </div>
-    </div>
-
     <div class="row album" data-album-id="${bill._id}">
       <div class="col-md-10 col-md-offset-1">
         <div class="panel panel-default">
           <div class="panel-body">
           <!-- begin bill internal row -->
             <div class='row'>
-              <div class="col-md-9 col-xs-12">
+              <div class="col-md-10 col-md-offset-1">
                 <ul class="list-group">
                   <li class="list-group-item">
                     <h4 class='inline-header'>Bill Title:</h4>
@@ -66,13 +58,14 @@ function renderBill(bill) {
                     <span class='bill-latestAction'>${bill.latestAction}</span>
                   </li>
                 </ul>
-                <button type="submit" class="btn btn-info text-right">Edit</button>
+
               </div>
             </div>
             <!-- end of billinternal row -->
-            <div class='panel-footer'>
+            <div class='panel-footer col-md-10 col-md-offset-1'>
               <div class='panel-footer'>
                 <button class='btn btn-primary add-bill'>Add Bill</button>
+                <button type="submit" class="btn btn-info text-right">Edit</button>
                 <button class='btn btn-danger delete-bill hidden'>Delete Bill</button>
                 <button class='btn btn-success save-bill hidden'>Save Changes</button>
               </div>
@@ -83,5 +76,5 @@ function renderBill(bill) {
     </div>
     <!-- end one bill -->
   `);
-  $('#bill').prepend(billHtml);
+  $('#bills').prepend(billHtml);
 }

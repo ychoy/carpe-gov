@@ -1,7 +1,7 @@
 var express = require('express'),
   app = express(),
   bodyParser = require('body-parser'),
-  mongoose = require('mongoose');
+  mongoose = require('mongoose'); 
 
   // serve static files from public folder
   app.use(express.static(__dirname + '/public'));
