@@ -46,7 +46,7 @@ function renderBill(bill) {
           <div class="panel-body">
           <!-- begin bill internal row -->
             <div class='row'>
-              <div class="col-md-10 col-md-offset-1">
+              <div class="col-md-9 col-md-offset-1">
                 <ul class="list-group">
                   <li class="list-group-item">
                     <h4 class='inline-header'>Bill Title:</h4>
@@ -68,34 +68,38 @@ function renderBill(bill) {
                     <span class='bill-latest-action'>${bill.latestAction}</span>
                   </li>
                 </ul>
-
+              </div>
+              <div class="col-md-2 text-center">
+                <div><button type="submit" class="btn btn-info text-right edit-bill">Edit</button></div> <br/>
+                <div><button type="submit" class='btn btn-success save-bill hidden'>Save Changes</button></div> <br/>
+                <div><button type="submit" class='btn btn-danger delete-bill hidden'>Delete Bill</button></div> <br/>
+                <div><button type="submit" class='btn btn-default cancel-edit hidden'>Cancel</button></div> <br/>
               </div>
             </div>
             <!-- end of billinternal row -->
-            <div class='panel-footer col-md-10 col-md-offset-1'>
-              <div class='panel-footer'>
-                <button type="submit" class="btn btn-info text-right edit-bill">Edit</button>
-                <button class='btn btn-danger delete-bill hidden'>Delete Bill</button>
-                <button class='btn btn-success save-bill hidden'>Save Changes</button>
+            <div class='panel-footer col-md-9 col-md-offset-1'>
+              <div class='panel-footer action-items '>
+
               </div>
             </div>
+
           </div>
         </div>
       </div>
     </div>
     <!-- end one bill -->
   `);
-  $('#bills').prepend(billHtml);
+  $('#bills').append(billHtml);
 }
 
 function handleBillEditClick(e){
     var $billRow = $(this).closest('.bill');
     var billId = $billRow.data('bill-id');
-    console.log('edit bill', billId);
 
     // show the save changes/delete buttons
     $billRow.find('.save-bill').toggleClass('hidden');
     $billRow.find('.delete-bill').toggleClass('hidden');
+    $billRow.find('.cancel-edit').toggleClass('hidden');
     // hide the edit button
     $billRow.find('.edit-bill').toggleClass('hidden');
 
@@ -134,7 +138,6 @@ function handleSaveChangesClick(e) {
     textUrl: $billRow.find('.edit-bill-text-url').val(),
     latestAction: $billRow.find('.edit-bill-latest-action').val()
   };
-  console.log('PUTing data for bill', billId, 'with data', data);
 
   $.ajax({
     method: 'PUT',
@@ -145,19 +148,12 @@ function handleSaveChangesClick(e) {
 }
 
 
-
 //onsuccess function of put ajax call PUTing data for bill
 function handleBillUpdatedResponse(data) {
-  console.log('response to update', data);
-
   var billId = data._id;
-  // scratch this bill from the page
   $('[data-bill-id=' + billId + ']').remove();
-  // and then re-draw it with the updates
   renderBill(data);
-
-  // BONUS: scroll the change into view
-  //$('[data-bill-id=' + billId + ']')[0].scrollIntoView();
+  $('[data-bill-id=' + billId + ']')[0].scrollIntoView();
 }
 
 
