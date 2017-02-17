@@ -35,12 +35,38 @@ function show(req, res) {
   });
 }
 
+function update(req, res) {
+  // find one bill by id, update it based on request body,
+  // and send it back as JSON
+  console.log('updating with data', req.body);
+
+  db.bill.findById(req.params.billId, function(err, foundBill) {
+    if(err) { console.log('billsController.update error', err); }
+    foundBill.title = req.body.title;
+    foundBill.summary = req.body.summary;
+    foundBill.sponsor = req.body.sponsor;
+    foundBill.textUrl = req.body.textUrl;
+    foundBill.latestAction = req.body.latestAction;
+    foundBill.save(function(err, savedBill) {
+      if(err) { console.log('saving altered bill failed'); }
+      res.json(savedBill);
+    });
+  });
+}
+
+function destroy(req, res) {
+  // find one bill by id, delete it, and send it back as JSON
+  db.bill.findOneAndRemove({ _id: req.params.billId }, function(err, foundBill){
+    // note you could send just send 204, but we're sending 200 and the deleted entity
+    res.json(foundBill);
+  });
+}
 
 // export public methods here
 module.exports = {
   index: index,
   create: create,
   show: show,
-  //destroy: destroy,
-  //update: update
+  destroy: destroy,
+  update: update
 };

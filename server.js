@@ -23,4 +23,8 @@ app.get('/api/bills/:billId', controllers.bills.show);
 
 app.post('/api/bills', controllers.bills.create);
 
+app.put('/api/bills/:billId', controllers.bills.update);
+
+app.delete('/api/bills/:billId', controllers.bills.destroy);
+
 app.listen(process.env.PORT || 3000);
