@@ -7,13 +7,15 @@ $(document).ready(function() {
     success: renderMultipleBills
   });
 
-  $('#bill-form').on('submit', function(e) {
+  $('#bill-form form').on('submit', function(e) {
     e.preventDefault();
     var formData = $(this).serialize();
     console.log('formData', formData);
-    $.post('/api/bills', formData, function(bill) {
-      console.log('bill after POST', bill);
-      renderBill(bill);  //render the server's response
+    $.ajax({
+      method: 'POST',
+      url: '/api/bills',
+      data: formData,
+      success: renderBill  //render the server's response
     });
     $(this).trigger("reset");
   });
