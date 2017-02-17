@@ -2,7 +2,7 @@ var express = require('express'),
   app = express(),
   bodyParser = require('body-parser'),
   mongoose = require('mongoose');
-  //controllers = require('/apicontrollers');
+  //controllers = require('./controllers');
 
 //app.user(bodyParser.urlencoded({extended: true}));
 
