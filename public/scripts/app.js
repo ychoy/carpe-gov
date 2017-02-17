@@ -18,10 +18,15 @@ $(document).ready(function() {
     $(this).trigger("reset");
   });
 
-//catch and handle click on Edit and Delete Bill buttons
-$('#bills').on('click', '.edit-bill', handleBillEditClick);
-$('#bills').on('click', '.save-bill', handleSaveChangesClick);
-//$('#bills').on('click', '.delete-bill', handleDeleteBillClick);
+  //catch and handle click on Edit and Delete Bill buttons
+  $('#bills').on('click', '.edit-bill', handleBillEditClick);
+  $('#bills').on('click', '.save-bill', handleSaveChangesClick);
+// work on later $('#bills').on('click', '.delete-bill', handleDeleteBillClick);
+  $(function(){
+    $('legend').click(function(){
+      $(this).nextAll('div').toggle('hidden');
+    });
+  });
 });
 
 
