@@ -20,6 +20,21 @@ $(document).ready(function() {
     $(this).trigger("reset");
   });
 
+  $('#bill-form form').on('submit', function(e) {
+    e.preventDefault();
+    var formData = $(this).serialize();
+    console.log('formData', formData);
+    $.ajax({
+      method: 'POST',
+      url: '/api/bills',
+      data: formData,
+      success: renderBill  //render the server's response
+    });
+    $(this).trigger("reset");
+  });
+
+    $modal.modal('hide');
+
   //catch and handle click on Edit and Delete Bill buttons
   $('#bills').on('click', '.edit-bill', handleBillEditClick);
   $('#bills').on('click', '.save-bill', handleSaveChangesClick);
