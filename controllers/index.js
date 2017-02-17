@@ -3,4 +3,3 @@ module.exports = {
   bills: require('./bills'),
   actionItems: require('./actionItems')
 }
-
