@@ -21,7 +21,7 @@ $(document).ready(function() {
   //catch and handle click on Edit and Delete Bill buttons
   $('#bills').on('click', '.edit-bill', handleBillEditClick);
   $('#bills').on('click', '.save-bill', handleSaveChangesClick);
-// work on later $('#bills').on('click', '.delete-bill', handleDeleteBillClick);
+  $('#bills').on('click', '.delete-bill', handleDeleteBillClick);
   $(function(){
     $('legend').click(function(){
       $(this).nextAll('div').toggle('hidden');
@@ -74,7 +74,6 @@ function renderBill(bill) {
             <!-- end of billinternal row -->
             <div class='panel-footer col-md-10 col-md-offset-1'>
               <div class='panel-footer'>
-                <button class='btn btn-primary add-bill'>Add Bill</button>
                 <button type="submit" class="btn btn-info text-right edit-bill">Edit</button>
                 <button class='btn btn-danger delete-bill hidden'>Delete Bill</button>
                 <button class='btn btn-success save-bill hidden'>Save Changes</button>
@@ -94,8 +93,9 @@ function handleBillEditClick(e){
     var billId = $billRow.data('bill-id');
     console.log('edit bill', billId);
 
-    // show the save changes button
+    // show the save changes/delete buttons
     $billRow.find('.save-bill').toggleClass('hidden');
+    $billRow.find('.delete-bill').toggleClass('hidden');
     // hide the edit button
     $billRow.find('.edit-bill').toggleClass('hidden');
 
@@ -158,4 +158,24 @@ function handleBillUpdatedResponse(data) {
 
   // BONUS: scroll the change into view
   //$('[data-bill-id=' + billId + ']')[0].scrollIntoView();
+}
+
+
+// when a delete button for an album is clicked
+function handleDeleteBillClick(e) {
+  var billId = $(this).parents('.bill').data('bill-id');
+  console.log('someone wants to delete bill id=' + billId );
+  $.ajax({
+    url: '/api/bills/' + billId,
+    method: 'DELETE',
+    success: handleDeleteBillSuccess
+  });
+}
+
+
+// callback after DELETE /api/albums/:id
+function handleDeleteBillSuccess(data) {
+  var deletedBillId = data._id;
+  console.log('removing the following bill from the page:', deletedBillId);
+  $('div[data-bill-id=' + deletedBillId + ']').remove();
 }
