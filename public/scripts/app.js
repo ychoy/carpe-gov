@@ -23,7 +23,6 @@ $(document).ready(function() {
   $('#bill-form form').on('submit', function(e) {
     e.preventDefault();
     var formData = $(this).serialize();
-    console.log('formData', formData);
     $.ajax({
       method: 'POST',
       url: '/api/bills',
@@ -33,7 +32,7 @@ $(document).ready(function() {
     $(this).trigger("reset");
   });
 
-    $modal.modal('hide');
+    //$modal.modal('hide');
 
   //catch and handle click on Edit and Delete Bill buttons
   $('#bills').on('click', '.edit-bill', handleBillEditClick);
@@ -54,8 +53,6 @@ function renderMultipleBills(bills) {
 }
 
 function renderBill(bill) {
-  console.log('rendering bill', bill);
-
   var billHtml = (`
     <div class="row bill" data-bill-id="${bill._id}">
       <div class="col-md-10 col-md-offset-1">
@@ -110,6 +107,7 @@ function renderBill(bill) {
   $('#bills').append(billHtml);
 }
 
+
 function handleBillEditClick(e){
     var $billRow = $(this).closest('.bill');
     var billId = $billRow.data('bill-id');
@@ -134,8 +132,8 @@ function handleBillEditClick(e){
     $billRow.find('span.bill-sponsor').html('<input class="edit-bill-sponsor" value="' + billSponsor + '"></input>');
 
     // get the bill text url and replace its field with an input element
-    var billTextUrl = $billRow.find('span.bill-text-url').text();
-    $billRow.find('span.bill-text-url').html('<input class="edit-bill-text-url" value="' + billTextUrl + '"></input>');
+    var billTextUrl = $billRow.find('.bill-text-url a').attr("href");
+    $billRow.find('.bill-text-url').html('<input class="edit-bill-text-url" value="' + billTextUrl + '"></input>');
 
     // get the bill latest action and replace its field with an input element
     var billLatestAction = $billRow.find('span.bill-latest-action').text();
