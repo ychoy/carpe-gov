@@ -90,7 +90,8 @@ function renderBill(bill) {
                 <div><button type="submit" class="btn btn-info text-right edit-bill">Edit</button></div> <br/>
                 <div><button type="submit" class='btn btn-success save-bill hidden'>Save Changes</button></div> <br/>
                 <div><button type="submit" class='btn btn-danger delete-bill hidden'>Delete Bill</button></div> <br/>
-                <div><button type="submit" class='btn btn-default cancel-edit hidden'>Cancel</button></div> <br/>
+                <div><button type="button" data-dismiss="modal" class='btn btn-default cancel-edit hidden'>Cancel</button></div> <br/>
+
               </div>
             </div>
             <!-- end of billinternal row -->
@@ -139,6 +140,7 @@ function handleBillEditClick(e){
     // get the bill latest action and replace its field with an input element
     var billLatestAction = $billRow.find('span.bill-latest-action').text();
     $billRow.find('span.bill-latest-action').html('<input class="edit-bill-latest-action" value="' + billLatestAction + '"></input>');
+
 }
 
 
