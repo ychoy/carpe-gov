@@ -8,16 +8,14 @@ function index(req, res) {
   });
 }
 
-// POST /api/albums
+// POST /api/bills
 function create(req, res) {
-  // create an album based on request body and send it back as JSON
+  // create an bill based on req body and send it back as JSON
   console.log('body', req.body);
-
   /* split at comma and remove and trailing space
   var keywords = req.body.keywords.split(',').map(function(item) { return item.trim(); } );
   req.body.keywords = keywords;
   */
-
   db.bill.create(req.body, function(err, bill) {
     if (err) { console.log('error', err); }
     console.log(bill);
@@ -35,11 +33,10 @@ function show(req, res) {
   });
 }
 
+// PUT /api/bills/:billId
 function update(req, res) {
-  // find one bill by id, update it based on request body,
-  // and send it back as JSON
+  // find one bill by id, update it based on req body and send it back as JSON
   console.log('updating with data', req.body);
-
   db.bill.findById(req.params.billId, function(err, foundBill) {
     if(err) { console.log('billsController.update error', err); }
     foundBill.title = req.body.title;
@@ -54,10 +51,10 @@ function update(req, res) {
   });
 }
 
+// DELETE /api/bills/:billId
 function destroy(req, res) {
   // find one bill by id, delete it, and send it back as JSON
   db.bill.findOneAndRemove({ _id: req.params.billId }, function(err, foundBill){
-    // note you could send just send 204, but we're sending 200 and the deleted entity
     res.json(foundBill);
   });
 }
