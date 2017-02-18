@@ -1,6 +1,5 @@
 $(document).ready(function() {
   console.log('app.js loaded!');
-
   $.ajax({
     method: 'GET',
     url: '/api/bills',
@@ -10,6 +9,7 @@ $(document).ready(function() {
   $('#bill-form form').on('submit', function(e) {
     e.preventDefault();
     var formData = $(this).serialize();
+  //var $modal =
     console.log('formData', formData);
     $.ajax({
       method: 'POST',
@@ -20,31 +20,20 @@ $(document).ready(function() {
     $(this).trigger("reset");
   });
 
-  $('#bill-form form').on('submit', function(e) {
-    e.preventDefault();
-    var formData = $(this).serialize();
-    $.ajax({
-      method: 'POST',
-      url: '/api/bills',
-      data: formData,
-      success: renderBill  //render the server's response
-    });
-    $(this).trigger("reset");
-  });
+  //$modal.modal('hide');
 
-    //$modal.modal('hide');
-
-  //catch and handle click on Edit and Delete Bill buttons
+  //catch and handle click on Edit, Save, Delete and Cancel-Edit Bill buttons
   $('#bills').on('click', '.edit-bill', handleBillEditClick);
   $('#bills').on('click', '.save-bill', handleSaveChangesClick);
   $('#bills').on('click', '.delete-bill', handleDeleteBillClick);
+  $('#bills').on('click', '.cancel-edit', handleCancelEditClick);
+
   $(function(){
     $('legend').click(function(){
       $(this).nextAll('div').toggle('hidden');
     });
   });
 });
-
 
 function renderMultipleBills(bills) {
   bills.forEach(function(bill) {
@@ -54,59 +43,61 @@ function renderMultipleBills(bills) {
 
 function renderBill(bill) {
   var billHtml = (`
-    <div class="row bill" data-bill-id="${bill._id}">
-      <div class="col-md-10 col-md-offset-1">
-        <div class="panel panel-default">
-          <div class="panel-body">
+    <div class='row bill' data-bill-id='${bill._id}'>
+      <div class='col-md-10 col-md-offset-1'>
+        <div class='panel panel-default'>
+          <div class='panel-body'>
           <!-- begin bill internal row -->
             <div class='row'>
-              <div class="col-md-9 col-md-offset-1">
-                <ul class="list-group">
-                  <li class="list-group-item">
+              <div class='col-md-9 col-md-offset-1'>
+                <ul class='list-group'>
+                  <li class='list-group-item'>
                     <h4 class='inline-header'>Bill Title:</h4>
                     <span class='bill-title'>${bill.title} </span>
                   </li>
-                  <li class="list-group-item">
+                  <li class='list-group-item'>
                     <h4 class='inline-header'>Summary:</h4>
                     <span class='bill-summary'>${bill.summary}</span>
                   </li>
-                  <li class="list-group-item">
+                  <li class='list-group-item'>
                     <h4 class='inline-header'>Sponsor:</h4>
                     <span class='bill-sponsor'>${bill.sponsor}</span>
                   </li>
-                  <li class="list-group-item">
-                    <h4 class='inline-header bill-text-url'>Text:<a href=${bill.textUrl}>Read Text</a></h4>
+                  <li class='list-group-item'>
+                    <h4 class='inline-header'>Text:</h4>
+                    <span class='bill-text-url' href="${bill.textUrl}">Read Text
+                    </span>
                   </li>
-                  <li class="list-group-item">
+                  <li class='list-group-item'>
                     <h4 class='inline-header'>Latest Action:</h4>
                     <span class='bill-latest-action'>${bill.latestAction}</span>
                   </li>
                 </ul>
               </div>
-              <div class="col-md-2 text-center">
-                <div><button type="submit" class="btn btn-info text-right edit-bill">Edit</button></div> <br/>
-                <div><button type="submit" class='btn btn-success save-bill hidden'>Save Changes</button></div> <br/>
-                <div><button type="submit" class='btn btn-danger delete-bill hidden'>Delete Bill</button></div> <br/>
-                <div><button type="button" data-dismiss="modal" class='btn btn-default cancel-edit hidden'>Cancel</button></div> <br/>
-
+              <div class='col-md-2 text-center'>
+                <div><button type='submit' class='btn btn-info text-right
+                edit-bill'>Edit</button></div> <br/>
+                <div><button type='submit' class='btn btn-success save-bill
+                hidden'>Save Changes</button></div> <br/>
+                <div><button type='submit' class='btn btn-danger delete-bill
+                hidden'>Delete Bill</button></div> <br/>
+                <div><button type='button' data-dismiss='modal' class='btn
+                btn-default cancel-edit hidden'>Cancel</button></div> <br/>
               </div>
             </div>
             <!-- end of billinternal row -->
             <div class='panel-footer col-md-9 col-md-offset-1'>
-              <div class='panel-footer action-items '>
-
+              <div class='panel-footer action-items'>
               </div>
             </div>
-
           </div>
         </div>
       </div>
     </div>
-    <!-- end one bill -->
-  `);
+    <!-- end one bill -->`);
+
   $('#bills').append(billHtml);
 }
-
 
 function handleBillEditClick(e){
     var $billRow = $(this).closest('.bill');
@@ -132,22 +123,18 @@ function handleBillEditClick(e){
     $billRow.find('span.bill-sponsor').html('<input class="edit-bill-sponsor" value="' + billSponsor + '"></input>');
 
     // get the bill text url and replace its field with an input element
-    var billTextUrl = $billRow.find('.bill-text-url a').attr("href");
-    $billRow.find('.bill-text-url').html('<input class="edit-bill-text-url" value="' + billTextUrl + '"></input>');
+    var billTextUrl = $billRow.find('span.bill-text-url').attr('href');
+    $billRow.find('span.bill-text-url').html('<input class="edit-bill-text-url" value="' + billTextUrl + '"></input>');
 
     // get the bill latest action and replace its field with an input element
     var billLatestAction = $billRow.find('span.bill-latest-action').text();
     $billRow.find('span.bill-latest-action').html('<input class="edit-bill-latest-action" value="' + billLatestAction + '"></input>');
-
 }
-
-
 
 // after editing an album, when the save changes button is clicked
 function handleSaveChangesClick(e) {
-  var billId = $(this).closest('.bill').data('bill-id'); // $(this).closest would have worked fine too
+  var billId = $(this).closest('.bill').data('bill-id');
   var $billRow = $('[data-bill-id=' + billId + ']');
-
   var data = {
     title: $billRow.find('.edit-bill-title').val(),
     summary: $billRow.find('.edit-bill-summary').val(),
@@ -164,7 +151,6 @@ function handleSaveChangesClick(e) {
   });
 }
 
-
 //onsuccess function of put ajax call PUTing data for bill
 function handleBillUpdatedResponse(data) {
   var billId = data._id;
@@ -172,7 +158,6 @@ function handleBillUpdatedResponse(data) {
   renderBill(data);
   $('[data-bill-id=' + billId + ']')[0].scrollIntoView();
 }
-
 
 // when a delete button for an album is clicked
 function handleDeleteBillClick(e) {
@@ -185,10 +170,14 @@ function handleDeleteBillClick(e) {
   });
 }
 
-
 // callback after DELETE /api/albums/:id
 function handleDeleteBillSuccess(data) {
   var deletedBillId = data._id;
   console.log('removing the following bill from the page:', deletedBillId);
   $('div[data-bill-id=' + deletedBillId + ']').remove();
+}
+
+// cancelling the edit bills button and returning bill to default
+function handleCancelEditClick(e) {
+
 }
