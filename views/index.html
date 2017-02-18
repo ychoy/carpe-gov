@@ -35,49 +35,50 @@
             <fieldset>
 
               <!-- Form Name -->
-              <legend class="btn btn-primary">Add New Bill</legend>
+              <legend class="btn btn-primary">Add New Bill</legend> <br/>
 
               <!-- Text input-->
-              <div class="form-group">
-                <label class="col-md-4 control-label" for="name">Bill Title</label>
-                <div class="col-md-4">
-                <input id="billTitle" name="title" type="text" placeholder="Bill Title" class="form-control input-md" required="">
+              <div class="hidden">
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="name">Bill Title</label>
+                  <div class="col-md-4">
+                  <input id="billTitle" name="title" type="text" placeholder="Bill Title" class="form-control input-md" required="">
+                  </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="billSummary">Bill Summary</label>
+                  <div class="col-md-4">
+                  <input id="billSummary" name="summary" type="text" placeholder="Bill Summary" class="form-control input-md">
+                  </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="billSponsor">Bill Sponsor</label>
+                  <div class="col-md-4">
+                  <input id="billSponsor" name="sponsor" type="text" placeholder="Bill Sponsor" class="form-control input-md">
+                  </div>
+                </div>
+
+      					<!-- Text input-->
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="latestAction">Latest Action</label>
+                  <div class="col-md-4">
+                  <input id="latestAction" name="latestAction" type="text" placeholder="Latest Action" class="form-control input-md">
+                  </div>
+                </div>
+
+                <!-- Button -->
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="singlebutton"></label>
+                  <div class="col-md-4">
+                    <button id="singlebutton" name="singlebutton" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
                 </div>
               </div>
-
-              <!-- Text input-->
-              <div class="form-group">
-                <label class="col-md-4 control-label" for="billSummary">Bill Summary</label>
-                <div class="col-md-4">
-                <input id="billSummary" name="summary" type="text" placeholder="Bill Summary" class="form-control input-md">
-                </div>
-              </div>
-
-              <!-- Text input-->
-              <div class="form-group">
-                <label class="col-md-4 control-label" for="billSponsor">Bill Sponsor</label>
-                <div class="col-md-4">
-                <input id="billSponsor" name="sponsor" type="text" placeholder="Bill Sponsor" class="form-control input-md">
-                </div>
-              </div>
-
-    					<!-- Text input-->
-              <div class="form-group">
-                <label class="col-md-4 control-label" for="latestAction">Latest Action</label>
-                <div class="col-md-4">
-                <input id="latestAction" name="latestAction" type="text" placeholder="Latest Action" class="form-control input-md">
-                </div>
-              </div>
-
-              <!-- Button -->
-              <div class="form-group">
-                <label class="col-md-4 control-label" for="singlebutton"></label>
-                <div class="col-md-4">
-                  <button id="singlebutton" name="singlebutton" class="btn btn-primary">Submit</button>
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-              </div>
-
             </fieldset>
           </form>
         </div>
