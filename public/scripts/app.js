@@ -46,6 +46,16 @@ $(document).ready(function() {
 });
 //End of Document Ready Function!
 
+function getBillsAndRender(params) {
+  // remove existing html slash add loader
+  $('#bills').html('');
+  $.ajax({
+    method: 'GET',
+    url: '/api/bills',
+    data: params,
+    success: renderMultipleBills
+  });
+}
 
 // initial onsuccess function to GET all bills and render them to page
 function renderMultipleBills(bills) {
@@ -196,36 +206,37 @@ function handleCancelEditClick(e) {
 
 //filters bills by funding issue in dropdown menu
 function filterBillsByFunding(e){
-//  var filteredBills = .find("");
-  filteredBills.forEach(function(fundingBill) {
-    renderBill(fundingBill);
+  getBillsAndRender({
+    type: 'Funding'
   });
 }
+
 //filters bills by vouchers issue in dropdown menu
 function filterBillsByVouchers(e){
-//  var filteredBills = .find("");
-  filteredBills.forEach(function(voucherBill) {
-    renderBill(voucherBill);
+  getBillsAndRender({
+    type: 'Vouchers'
   });
 }
+
 //filters bills by affordability issue in dropdown menu
 function filterBillsByAffordability(e){
-//  var filteredBills = .find("");
-  filteredBills.forEach(function(affordabilityBill) {
-    renderBill(affordabilityBill);
+  getBillsAndRender({
+    type: 'Affordability'
   });
 }
+
 //filters bills by dept-of-ed issue in dropdown menu
 function filterBillsByDeptOfEd(e){
-//  var filteredBills = .find("");
-  filteredBills.forEach(function(deptOfEdBill) {
-    renderBill(deptOfEdBill);
+  getBillsAndRender({
+    type: 'Dept of Education'
   });
 }
+
 //gets all bills when all bills is clicked in issues dropdown
 function getAllBills(e){
   window.location.reload();
 }
+
 //handles close add bill form click by refreshing and hiding form
 function handleCloseAddBillClick(e){
   $('legend').nextAll('div').toggle("hidden");
