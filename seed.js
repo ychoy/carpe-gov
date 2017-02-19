@@ -61,6 +61,11 @@ actionItems.push({ title: 'Write to Your Representative',
                    status: false
                  });
 
+// add all action items to each album's action items list
+billList.forEach(function(bill) {
+  bill.actionItems = actionItems;
+});
+
 db.bill.remove({}, function(err, bills){
   db.bill.create(billList, function(err, bills){
     if (err) { return console.log('ERROR', err); }
