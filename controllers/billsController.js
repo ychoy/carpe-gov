@@ -2,9 +2,20 @@ var db = require('../models');
 
 // GET /api/bills
 function index(req, res) {
+  var type = req.query.type;
+  var query = {};
+  if (type) {
+    query = {
+      issues: {
+        $in: [type]
+      }
+    };
+  }
+  console.log(type, query);
   // send back all bills as JSON
-  db.bill.find({}, function(err, allBills) {
-    res.json(allBills);
+  db.bill.find(query, function(err, allBills) {
+
+    res.json(err||allBills);
   });
 }
 
