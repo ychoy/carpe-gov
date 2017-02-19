@@ -123,10 +123,10 @@
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h4 class="modal-title">Add Action Item</h4>
             </div>
+
           <div class="modal-body">
 
             <fieldset class='form-horizontal'>
-
               <!-- Text input-->
               <div class="form-group">
                 <label class="col-md-4 control-label" for="actionItemTitle">Action Item Title</label>
@@ -139,17 +139,17 @@
               <div class="form-group">
                 <label class="col-md-4 control-label" for="actionItemDescription">Description</label>
                 <div class="col-md-4">
-                  <input id="actionItemDescription" name="description" type="actionItemDescription" placeholder="" class="form-control input-md">
+                  <input id="actionItemDescription" name="description" type="text" placeholder="" class="form-control input-md">
                 </div>
               </div>
 
-            <!-- Due Date input-->
-            <div class="form-group">
-              <label class="col-md-4 control-label" for="actionItemDueDate">Due Date</label>
-              <div class="col-md-4">
-                <input id="actionItemDueDate" name="dueDate" type="actionItemDueDate" placeholder="" class="form-control input-md">
+              <!-- Due Date input-->
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="actionItemDueDate">Due Date</label>
+                <div class="col-md-4">
+                  <input id="actionItemDueDate" name="dueDate" type="text" placeholder="" class="form-control input-md">
+                </div>
               </div>
-            </div>
           </fieldset>
 
           </div>
@@ -166,7 +166,7 @@
 
 
     <!-- Edit actionItems Modal -->
-    <div class="modal fade bs-modal-lg" id="editActionItemsModal" tabindex="-1" role="dialog" aria-labelledby="editactionItemsModalTitle">
+    <div class="modal fade bs-modal-lg" id="editActionItemsModal" tabindex="-1" role="dialog" aria-labelledby="editActionItemsModalTitle">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -174,7 +174,6 @@
             <h4 class="modal-title" id="editActionItemsModalTitle">Edit Action Items</h4>
           </div>
           <div class="modal-body" id='editActionItemsModalBody'>
-            <p> REPLACE #editActionItemsModalBody </p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

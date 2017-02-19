@@ -2,7 +2,7 @@ var db = require('../models');
 
 // app.get('/api/bills/:billsId/actionItems', controllers.actionItems.index);
 function index(req, res) {
-  db.Bill.findById(req.params.billsId, function(err, foundBill) {
+  db.bill.findById(req.params.billId, function(err, foundBill) {
     console.log('responding with actionItems:', foundBill.actionItems);
     res.json(foundBill.actionItems);
   });
@@ -10,29 +10,32 @@ function index(req, res) {
 
 // POST '/api/bills/:billsId/actionItems'
 function create(req, res) {
-  db.Bill.findById(req.params.billsId, function(err, foundBill) {
+  db.bill.findById(req.params.billId, function(err, foundBill) {
     console.log(req.body);
-    var newactionItems = new db.actionItem(req.body);  // dangerous, in a real app we'd validate the incoming data
-    foundBill.actionItems.push(newactionItems);
+    var newActionItems = new db.actionItem(req.body);
+    // dangerous, in a real app we'd validate the incoming data
+    foundBill.actionItems.push(newActionItems);
     foundBill.save(function(err, savedBill) {
-      console.log('newactionItems created: ', newactionItems);
-      res.json(newactionItems);  // responding with just the actionItem, some APIs may respond with the parent object (bill in this case)
+      console.log('newActionItems created: ', newActionItems);
+      res.json(newActionItems);
+      // responding with just the actionItem, some APIs may respond with the parent object (bill in this case)
     });
   });
 }
 
-// app.delete('/api/bills/:billsId/actionItems/:actionItemId', controllers.actionItems.destroy);
+// app.delete('/api/bills/:billsId/actionItems/:actionItemId',
+// controllers.actionItems.destroy);
 function destroy(req, res) {
-  db.Bill.findById(req.params.billsId, function(err, foundBill) {
+  db.bill.findById(req.params.billId, function(err, foundBill) {
     console.log(foundBill);
     // we've got the bill, now find the action item within it
-    var correctactionItems = foundBill.actionItems.id(req.params.actionItemId);
-    if (correctactionItems) {
-      correctactionItems.remove();
+    var correctActionItem = foundBill.actionItems.id(req.params.actionItemId);
+    if (correctActionItem) {
+      correctactionItem.remove();
       // resave the bill now that the actionItem is gone
       foundBill.save(function(err, saved) {
-        console.log('REMOVED ', correctactionItems.name, 'FROM ', saved.actionItems);
-        res.json(correctactionItems);
+        console.log('REMOVED ', correctActionItem.title, 'FROM ', saved.actionItems);
+        res.json(correctActionItem);
       });
     } else {
       res.send(404);
@@ -40,22 +43,23 @@ function destroy(req, res) {
   });
 }
 
-//app.put('/api/bills/:billsId/actionItems/:actionItemId', controllers.actionItems.update);
+//app.put('/api/bills/:billsId/actionItems/:actionItemId',
+//controllers.actionItems.update);
 function update(req, res) {
-  db.Bill.findById(req.params.billsId, function(err, foundBill) {
+  db.bill.findById(req.params.billId, function(err, foundBill) {
     console.log(foundBill);
     // we've got the bill, now find the actionItem within it
-    var correctActionItems = foundBill.actionItems.id(req.params.actionItemId);
-    if (correctActionItems) {
+    var correctActionItem = foundBill.actionItems.id(req.params.actionItemId);
+    if (correctActionItem) {
       console.log(req.body);
-      correctActionItems.title = req.body.title;
-      correctActionItems.description = req.body.description;
-      correctActionItems.dueDate = req.body.dueDate;
-      correctActionItems.status = req.body.status;
+      correctActionItem.title = req.body.title;
+      correctActionItem.description = req.body.description;
+      correctActionItem.dueDate = req.body.dueDate;
+      correctActionItem.status = req.body.status;
 
       foundBill.save(function(err, saved) {
-        console.log('UPDATED', correctActionItems, 'IN ', saved.actionItems);
-        res.json(correctActionItems);
+        console.log('UPDATED', correctActionItem, 'IN ', saved.actionItems);
+        res.json(correctActionItem);
       });
     } else {
       res.send(404);

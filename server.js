@@ -6,11 +6,12 @@ var express = require('express'),
 // serve static files from public folder
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
+
 var controllers = require('./controllers');
 
 //HTML endpoints
 app.get('/', function (req, res) {
-  res.sendFile('/views/index.html' , { root : __dirname});
+  res.sendFile(__dirname + '/views/index.html');
 });
 
 // JSON API endpoints
