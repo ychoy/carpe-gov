@@ -1,10 +1,13 @@
 $(document).ready(function() {
-  console.log('app.js loaded!');
+//GET all the bills to render to page
   $.ajax({
     method: 'GET',
     url: '/api/bills',
     success: renderMultipleBills
   });
+
+//dropdown menu to filter bills by Issues
+  $(".dropdown-toggle").dropdown();
 
 //POSTs new bill from add bill dropdown form
   $('#bill-form form').on('submit', function(e) {
@@ -16,12 +19,8 @@ $(document).ready(function() {
       data: formData,
       success: renderBill  //render the server's response
     });
-    $('[data-bill-id=' + billId + ']')[0].scrollIntoView();
     $(this).trigger("reset");
   });
-
-  $('#bills').on('click', '.cancel-edit', handleCancelEditClick);
-  //$modal.modal('hide');
 
   //catch and handle click on Edit, Save, Delete and Cancel-Edit Bill buttons
   $('#bills').on('click', '.edit-bill', handleBillEditClick);
@@ -29,13 +28,24 @@ $(document).ready(function() {
   $('#bills').on('click', '.delete-bill', handleDeleteBillClick);
   $('#bills').on('click', '.cancel-edit', handleCancelEditClick);
 
+  //catch and handle clicks in the filter by issues dropdown menu
+  $('#issues').on('click', '.funding', filterBillsByFunding)
+  $('#issues').on('click', '.vouchers', filterBillsByVouchers)
+  $('#issues').on('click', '.affordability', filterBillsByAffordability)
+  $('#issues').on('click', '.dept-of-ed', filterBillsByDeptOfEd)
+  $('#issues').on('click', '.allbills', getAllBills)
+
   //click add bill button to get dropdown add bill form
   $(function(){
     $('legend').click(function(){
-      $(this).nextAll('div').toggleClass("hidden");
+      $(this).nextAll('div').toggle("hidden");
     });
   });
+
+  $('#bill-form').on('click', '.close-add-bill', handleCloseAddBillClick);
 });
+//End of Document Ready Function!
+
 
 // initial onsuccess function to GET all bills and render them to page
 function renderMultipleBills(bills) {
@@ -48,7 +58,7 @@ function renderMultipleBills(bills) {
 function renderBill(bill) {
   var billHtml = (`
     <div class='row bill' data-bill-id='${bill._id}'>
-      <div class='col-md-10 col-md-offset-1'>
+      <div class='col-md-8 col-md-offset-2'>
         <div class='panel panel-default'>
           <div class='panel-body'>
           <!-- begin bill internal row -->
@@ -76,16 +86,20 @@ function renderBill(bill) {
                     <h4 class='inline-header'>Latest Action:</h4>
                     <span class='bill-latest-action'>${bill.latestAction}</span>
                   </li>
+                  <li class='list-group-item'>
+                    <h4 class='inline-header'>Issues:</h4>
+                    <span class='bill-issues'>${bill.issues}</span>
+                  </li>
                 </ul>
               </div>
               <div class='col-md-2 text-center'>
-                <div><button type='submit' class='btn btn-info text-right
+                <div><button type='submit' class='btn btn-primary text-right
                 edit-bill'>Edit</button></div> <br/>
                 <div><button type='submit' class='btn btn-success save-bill
                 hidden'>Save</button></div> <br/>
                 <div><button type='submit' class='btn btn-danger delete-bill
                 hidden'>Delete</button></div> <br/>
-                <div><button type='button' class='btn btn-default cancel-edit
+                <div><button type='submit' class='btn btn-default cancel-edit
                 hidden'>Cancel</button></div> <br/>
               </div>
             </div>
@@ -117,7 +131,7 @@ function handleBillEditClick(e){
     $billRow.find('span.bill-title').html('<input class="edit-bill-title form-control" value="' + billTitle + '"></input>');
     // get the bill summary and replace its field with an input element
     var billSummary = $billRow.find('span.bill-summary').text();
-    $billRow.find('span.bill-summary').html('<input class="edit-bill-summary form-control" rows="7" value="' + billSummary + '"></input>');
+    $billRow.find('span.bill-summary').html('<input class="edit-bill-summary form-control" value="' + billSummary + '"></input>');
     // get the bill sponsor and replace its field with an input element
     var billSponsor = $billRow.find('span.bill-sponsor').text();
     $billRow.find('span.bill-sponsor').html('<input class="edit-bill-sponsor form-control" value="' + billSponsor + '"></input>');
@@ -127,6 +141,9 @@ function handleBillEditClick(e){
     // get the bill latest action and replace its field with an input element
     var billLatestAction = $billRow.find('span.bill-latest-action').text();
     $billRow.find('span.bill-latest-action').html('<input class="edit-bill-latest-action form-control" value="' + billLatestAction + '"></input>');
+    // get the bill issues and replace its field with an input element
+    var billIssues = $billRow.find('span.bill-issues').text();
+    $billRow.find('span.bill-issues').html('<input class="edit-bill-issues form-control" value="' + billIssues + '"></input>');
 }
 
 // after editing an album, when the save changes button is clicked
@@ -174,5 +191,43 @@ function handleDeleteBillSuccess(data) {
 
 // cancels edits in edit bills form and returns to homepage
 function handleCancelEditClick(e) {
+  window.location.reload();
+}
 
+//filters bills by funding issue in dropdown menu
+function filterBillsByFunding(e){
+//  var filteredBills = .find("");
+  filteredBills.forEach(function(fundingBill) {
+    renderBill(fundingBill);
+  });
+}
+//filters bills by vouchers issue in dropdown menu
+function filterBillsByVouchers(e){
+//  var filteredBills = .find("");
+  filteredBills.forEach(function(voucherBill) {
+    renderBill(voucherBill);
+  });
+}
+//filters bills by affordability issue in dropdown menu
+function filterBillsByAffordability(e){
+//  var filteredBills = .find("");
+  filteredBills.forEach(function(affordabilityBill) {
+    renderBill(affordabilityBill);
+  });
+}
+//filters bills by dept-of-ed issue in dropdown menu
+function filterBillsByDeptOfEd(e){
+//  var filteredBills = .find("");
+  filteredBills.forEach(function(deptOfEdBill) {
+    renderBill(deptOfEdBill);
+  });
+}
+//gets all bills when all bills is clicked in issues dropdown
+function getAllBills(e){
+  window.location.reload();
+}
+//handles close add bill form click by refreshing and hiding form
+function handleCloseAddBillClick(e){
+  $('legend').nextAll('div').toggle("hidden");
+  $('#bill-form form')[0].reset();
 }

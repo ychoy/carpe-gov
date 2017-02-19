@@ -11,13 +11,14 @@
   <link rel="stylesheet" href="/styles/styles.css">
 
   <!-- SCRIPTS -->
-  <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="/scripts/app.js"></script>
   </head>
 
   <body>
     <div class="jumbotron">
-      <div class="container">
+      <div class="container-fluid">
         <div class="col-md-offset-1">
           <h1>CarpeGov</h1>
           <p>Take action on education!</p>
@@ -27,74 +28,90 @@
 
 		<!-- BEGIN FORM -->
 
-    <section id="bill-form" class="container">
-      <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+    <section id="bill-form">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+            <form class="form-horizontal">
+              <fieldset>
 
-          <form class="form-horizontal">
-            <fieldset>
-
-              <!-- Form Name -->
-              <legend class="btn btn-primary">Add New Bill</legend> <br/>
-
-              <!-- Text input-->
-              <div class="hidden">
-                <div class="form-group">
-                  <label class="col-md-4 control-label" for="name">Bill Title</label>
-                  <div class="col-md-4">
-                  <input id="billTitle" name="title" type="text" placeholder="Bill Title" class="form-control input-md" required="">
-                  </div>
-                </div>
+                <!-- Form Name -->
+                <legend class="btn btn-primary">Add New Bill</legend> <br/>
 
                 <!-- Text input-->
-                <div class="form-group">
-                  <label class="col-md-4 control-label" for="billSummary">Bill Summary</label>
-                  <div class="col-md-4">
-                  <input id="billSummary" name="summary" type="text" placeholder="Bill Summary" class="form-control input-md">
+                <div style="display:none;">
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="name">Bill Title</label>
+                    <div class="col-md-4">
+                    <input id="billTitle" name="title" type="text" placeholder="Bill Title" class="form-control input-md" required="">
+                    </div>
                   </div>
-                </div>
 
-                <!-- Text input-->
-                <div class="form-group">
-                  <label class="col-md-4 control-label" for="billSponsor">Bill Sponsor</label>
-                  <div class="col-md-4">
-                  <input id="billSponsor" name="sponsor" type="text" placeholder="Bill Sponsor" class="form-control input-md">
+                  <!-- Text input-->
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="billSummary">Bill Summary</label>
+                    <div class="col-md-4">
+                    <input id="billSummary" name="summary" type="text" placeholder="Bill Summary" class="form-control input-md">
+                    </div>
                   </div>
-                </div>
 
-      					<!-- Text input-->
-                <div class="form-group">
-                  <label class="col-md-4 control-label" for="latestAction">Latest Action</label>
-                  <div class="col-md-4">
-                  <input id="latestAction" name="latestAction" type="text" placeholder="Latest Action" class="form-control input-md">
+                  <!-- Text input-->
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="billSponsor">Bill Sponsor</label>
+                    <div class="col-md-4">
+                    <input id="billSponsor" name="sponsor" type="text" placeholder="Bill Sponsor" class="form-control input-md">
+                    </div>
                   </div>
-                </div>
 
-                <!-- Button -->
-                <div class="form-group">
-                  <label class="col-md-4 control-label" for="singlebutton"></label>
-                  <div class="col-md-4">
-                    <button id="singlebutton" name="singlebutton" class="btn btn-primary">Submit</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        					<!-- Text input-->
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="latestAction">Latest Action</label>
+                    <div class="col-md-4">
+                    <input id="latestAction" name="latestAction" type="text" placeholder="Latest Action" class="form-control input-md">
+                    </div>
+                  </div>
+
+                  <!-- Button -->
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="singlebutton"></label>
+                    <div class="col-md-4">
+                      <button id="singlebutton" name="singlebutton" class="btn btn-primary">Submit</button>
+                      <button type="button" class="btn btn-default close-add-bill" data-dismiss="modal">Close</button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </fieldset>
-          </form>
+              </fieldset>
+            </form>
+          </div>
         </div>
       </div>
     </section>
-     <!--   END FORM   -->
+    <!--   END FORM   -->
 
-    <section class="container">
+    <!-- drop down filter by issues menu -->
+    <div id="issues" class="container">
+      <div class="dropdown col-md-2 col-md-offset-5 text-center">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Issues<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li class="text-center"><a href="#" class="btn funding">Funding</a></li>
+          <li class="text-center"><a href="#" class="btn vouchers">Vouchers</a></li>
+          <li class="text-center"><a href="#" class="btn affordability">Affordability</a></li>
+          <li class="text-center"><a href="#" class="btn dept-of-ed">Dept of Education</a></li>
+          <li class="divider"></li>
+          <li class="text-center"><a href="#" class="allbills">All Bills</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <section class="container-fluid">
       <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-8 col-md-offset-2">
           <h2>Bills</h2>
         </div>
       </div>
 
       <!-- billscontainer! -->
-      <div id="bills" class="container">
+      <div id="bills" class="container-fluid">
       </div>
     </section>
 

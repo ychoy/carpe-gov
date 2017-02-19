@@ -7,9 +7,9 @@ var BillSchema = new Schema({
 	summary: String,
 	sponsor: String,
 	textUrl: String,
-	latestAction: String
+	latestAction: String,
+  issues: [String]
 });
 
 var Bill = mongoose.model('Bill', BillSchema);
 module.exports = Bill;
-
