@@ -22,6 +22,9 @@ $(document).ready(function() {
     $(this).trigger("reset");
   });
 
+  // catch and handle the click on an add action item button
+  $('#bills').on('click', '.add-actionItem', handleAddActionItemClick);
+
   //catch and handle click on Edit, Save, Delete and Cancel-Edit Bill buttons
   $('#bills').on('click', '.edit-bill', handleBillEditClick);
   $('#bills').on('click', '.save-bill', handleSaveChangesClick);
@@ -35,14 +38,13 @@ $(document).ready(function() {
   $('#issues').on('click', '.dept-of-ed', filterBillsByDeptOfEd)
   $('#issues').on('click', '.allbills', getAllBills)
 
-
   // save action items modal save button
   $('#saveActionItem').on('click', handleNewActionItemSubmit);
-  $('#bill').on('click', '.edit-actionItem', handleEditActionItemsClick);
+  $('#bill').on('click', '.edit-ActionItems', handleEditActionItemsClick);
 
   // edit action items modal triggers
-  $('#EditActionItemsModalBody').on('click', 'button.btn-danger', handleDeleteActionItemClick);
-  $('#EditActionItemsModal').on('click', 'button#EditActionItemsSubmit', handleUpdateActionItemsSave);
+  $('#editActionItemsModalBody').on('click', 'button.btn-danger', handleDeleteActionItemClick);
+  $('#editActionItemsModal').on('click', 'button#editActionItemsSubmit', handleUpdateActionItemsSave);
 
   //click add bill button to get dropdown add bill form
   $(function(){
@@ -58,7 +60,7 @@ $(document).ready(function() {
 
 function handleUpdateActionItemsSave(event) {
   // build all the action items objects up
-  var $modal = $('#EditActionItemsModal');
+  var $modal = $('#editActionItemsModal');
   if($modal.find('form').length < 1) {
     // if there are no form elements, then there are no action items to update
     $modal.modal('hide');
@@ -73,8 +75,9 @@ function handleUpdateActionItemsSave(event) {
     // in here this is a form element
     var anActionItem = {};
     anActionItem._id = $(this).attr('id');
-    anActionItem.name = $(this).find('input.actionItem-title').val();
-    anActionItem.trackNumber = $(this).find('input.actionItem-description').val();
+    anActionItem.title = $(this).find('input.actionItem-title').val();
+    anActionItem.description = $(this).find('input.actionItem-description').val();
+    anActionItem.dueDate = $(this).find('input.actionItem-dueDate').val();
     console.log('found updated data for actionItem: ', anActionItem);
     updatedactionItems.push(anActionItem);
   });
@@ -154,28 +157,31 @@ function handleactionItemDeleteResponse(data) {
 function handleEditActionItemsClick(e) {
   var $billRow = $(this).closest('.bill');
   var billId = $billRow.data('bill-id');
-  console.log('edit actionItems clicked for ', billId);
-  // seems we need the list of actionItems here - later, when you see full front-end
+  console.log('edit action items for ', billId);
+  // seems we need the list of action items - later, when you see full front-end
   // frameworks, this'll be a little easier, for now - lets request the data we need
   $.get('/api/bills/' + billId + "/actionItems", function(actionItems) {
     console.log('got back actionItems: ', actionItems);
     populateEditActionItemsModal(actionItems, billId);
-    // fire zee modal!
-    $('#editactionItemsModal').modal();
+    // fire the modal
+    $('#editActionItemsModal').modal();
   });
 }
 
-function buildeditActionItemsForms(actionItems, billId) {
-  // create a edit form for each actionItem, using the same billId for all of them
+function buildEditActionItemsForms(actionItems, billId) {
+  // create a edit form for each action item, using the same billId for all of them
   var actionItemEditFormHtmlStrings = actionItems.map(function(actionItem){
     return (`
       <form class="form-inline" id="${actionItem._id}" data-bill-id="${billId}" >
-        <div class="form-group">
-          <input type="text" class="form-control actionItem-description" value="${actionItem.description}">
-        </div>
+
         <div class="form-group">
           <input type="text" class="form-control actionItem-title" value="${actionItem.title}">
         </div>
+
+        <div class="form-group">
+          <input type="text" class="form-control actionItem-description" value="${actionItem.description}">
+        </div>
+
         <div class="form-group">
           <button class="btn btn-danger" data-actionItem-id="${actionItem._id}">x</button>
         </div>
@@ -188,9 +194,9 @@ function buildeditActionItemsForms(actionItems, billId) {
 
 // takes an array of actionItems and generates an EDIT form for them
 function populateEditActionItemsModal(actionItems, billId) {
-  var EditActionItemsFormsHtml = buildEditActionItemsForms(actionItems, billId);
+  var editActionItemsFormsHtml = buildEditActionItemsForms(actionItems, billId);
   // find the modal's body and replace it with the generated html
-  $('#EditActionItemsModalBody').html(EditActionItemsFormsHtml);
+  $('#editActionItemsModalBody').html(EditActionItemsFormsHtml);
 }
 
 
@@ -214,20 +220,26 @@ function renderMultipleBills(bills) {
 }
 
 function renderActionItem(actionItem){
-  return `<span>&ndash; <strong><p> ${actionItem.title} </p></strong> <p> ${actionItem.description}</p> <p> ${actionItem.dueDate} </p> &ndash;</span>`
+  return `<span>
+          <p><h4>${actionItem.title}</h4> </p>
+          <p><strong>Description</strong></p>
+          <p> ${actionItem.description}</p>
+          <p>Due: ${actionItem.dueDate} </p>
+          </span>`
 }
 
 // onsuccess function of POST which renders add bill form input to page
 function renderBill(bill) {
   console.log('rendering bill', bill);
 
-  bill.actionItemsHtml = bill.actionItems.map(renderActionItem).join("");
+  bill.actionItemsHtml = bill.actionItems.map(renderActionItem).join('');
 
   var billHtml = (`
     <div class='row bill' data-bill-id='${bill._id}'>
       <div class='col-md-8 col-md-offset-2'>
         <div class='panel panel-default'>
           <div class='panel-body'>
+
           <!-- begin bill internal row -->
             <div class='row'>
               <div class='col-md-9 col-md-offset-1'>
@@ -260,10 +272,11 @@ function renderBill(bill) {
 
                   <li class="list-group-item">
                   <h4 class="inline-header">Action Items:</h4>
-                  ${bill.actionItemsHtml}
+                  <span class='bill-actionItems'>${bill.actionItemsHtml}</span>
                 </li>
                 </ul>
               </div>
+
               <div class='col-md-2 text-center'>
                 <div><button type='submit' class='btn btn-primary text-right
                 edit-bill'>Edit</button></div> <br/>
@@ -273,15 +286,16 @@ function renderBill(bill) {
                 hidden'>Delete</button></div> <br/>
                 <div><button type='submit' class='btn btn-default cancel-edit
                 hidden'>Cancel</button></div> <br/>
-                <div><button type='submit' class='btn btn-info text-right
-                edit-actionItems hidden'>Edit Action Item</button></div><br/>
-                <div><button type='submit' class='btn btn-primary text-right
-                add-actionItem'>Add Action Item</button></div><br/>
               </div>
             </div>
+
             <!-- end of billinternal row -->
             <div class='panel-footer col-md-9 col-md-offset-1'>
               <div class='panel-footer action-items'>
+                <button class='btn btn-primary add-actionItem'>Add Action Item</button>
+                <button class='btn btn-success save-actionItem hidden'>Save Changes</button>
+                <button class='btn btn-info edit-ActionItems'>Edit Action Items</button>
+              </div>
               </div>
             </div>
           </div>
@@ -320,9 +334,12 @@ function handleBillEditClick(e){
     // get the bill issues and replace its field with an input element
     var billIssues = $billRow.find('span.bill-issues').text();
     $billRow.find('span.bill-issues').html('<input class="edit-bill-issues form-control" value="' + billIssues + '"></input>');
+    // get the bill issues and replace its field with an input element
+//    var billActionItems = $billRow.find('span.bill-actionItems').text();
+//    $billRow.find('span.bill-actionItems').html('<input class="edit-bill-action-item form-control" value="' + billActionItems + '"></input>');
 }
 
-// after editing an bill, when the save changes button is clicked
+// after editing the bill, when the save changes button is clicked
 function handleSaveChangesClick(e) {
   var billId = $(this).closest('.bill').data('bill-id');
   var $billRow = $('[data-bill-id=' + billId + ']');
@@ -331,7 +348,8 @@ function handleSaveChangesClick(e) {
     summary: $billRow.find('.edit-bill-summary').val(),
     sponsor: $billRow.find('.edit-bill-sponsor').val(),
     textUrl: $billRow.find('.edit-bill-text-url').val(),
-    latestAction: $billRow.find('.edit-bill-latest-action').val()
+    latestAction: $billRow.find('.edit-bill-latest-action').val(),
+  //  actionItem: $billRow.find('.edit-bill-action-item').val()
   };
   $.ajax({
     method: 'PUT',
@@ -412,8 +430,8 @@ function handleCloseAddBillClick(e){
 // when the add action item button is clicked, display the modal
 function handleAddActionItemClick(e) {
   console.log('add-actionItem clicked!');
-  var currentBillId = $(this).closest('.bill').data('billid');
-  console.log('id',currentbillId);
+  var currentBillId = $(this).closest('.bill').data('billId');
+  console.log('id',currentBillId);
   $('#actionItemModal').data('bill-id', currentBillId);
   $('#actionItemModal').modal();  // display the modal
 }
@@ -430,14 +448,16 @@ function handleNewActionItemSubmit(e) {
   // note the server expects the keys to be the action item attributes, so we use those.
   var dataToPost = {
     title: $aITitleField.val(),
-    description: $$aIDescriptionField.val(),
+    description: $aIDescriptionField.val(),
     dueDate: $aIDueDateField.val()
   };
   var billId = $modal.data('billId');
-  console.log('retrieved title:', title, ' description:', description, ' ane dud date:', dueDate, ' for bill with id: ', billId);
+  console.log('retrieved title:', dataToPost.title, ' description:',
+  dataToPost.description, ' and due date:', dataToPost.dueDate,
+  ' for bill with id: ', billId);
   // POST to SERVER
   var actionItemPostToServerUrl = '/api/bills/'+ billId + '/actionItems';
-  $.post(actionItemToServerUrl, dataToPost, function(data) {
+  $.post(actionItemPostToServerUrl, dataToPost, function(data) {
     console.log('received data from post to /actionItems:', data);
     // clear form
     $aITitleField.val(''),
@@ -448,7 +468,5 @@ function handleNewActionItemSubmit(e) {
     $modal.modal('hide');
     // update the correct bill to show new action item
     fetchAndReRenderBillWithId(billId);
-  }).error(function(err) {
-    console.log('post to /api/bills/:billId/actionItems resulted in error', err);
   });
 }

@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var ActionItemSchema = new Schema({
   title: String,
   description: String,
-  dueDate: Date,
+  dueDate: String,
   status: Boolean
 });
 

@@ -47,17 +47,17 @@ var actionItems = [];
 
 actionItems.push({ title: 'Call Your Representative',
                    description: 'Call Senator Dianne Feinstein (CA) at (415) 393-0707 | Call Senator Kamala Harris (CA) at (415) 355 - 9041 | Call Representative Zoe Lofgren (CA-19) at (408) 271-8700',
-                   dueDate: 2017-02-21,
+                   dueDate: '2017-02-21',
                    status: false
                  });
 actionItems.push({ title: 'Contact Your Representative',
                    description: 'Contact Senator Dianne Feinstein at http://www.feinstein.senate.gov/public/index.cfm/e-mail-me | Contact Senator Kamala Harris (CA) at https://www.harris.senate.gov/content/contact-senator | Contact Representative Zoe Lofgren (CA-19) at https://lofgren.house.gov/contact/',
-                   dueDate: 2017-02-22,
+                   dueDate: '2017-02-22',
                    status: false
                  });
 actionItems.push({ title: 'Write to Your Representative',
                    description: 'Write to Senator Dianne Feinstein at One Post Street, Suite 2450, San Francisco, CA 94104 | Write to Senator Kamala Harris (CA) at 50 United Nations Plaza, Suite 5584, San Francisco, CA  94102 | Write to Representative Zoe Lofgren (CA-19) at  635 North 1st Street, Suite B, San Jose, CA 95112.',
-                   dueDate: 2017-02-23,
+                   dueDate: '2017-02-23',
                    status: false
                  });
 
