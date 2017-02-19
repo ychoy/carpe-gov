@@ -26,4 +26,12 @@ app.put('/api/bills/:billId', controllers.bills.update);
 
 app.delete('/api/bills/:billId', controllers.bills.destroy);
 
+app.get('/api/bills/:billId/actionItems', controllers.actionItems.index);
+
+app.post('/api/bills/:billId/actionItems', controllers.actionItems.create);
+
+app.delete('/api/bills/:billId/actionItems/:actionItemId', controllers.actionItems.destroy);
+
+app.put('/api/bills/:billId/actionItems/:actionItemId', controllers.actionItems.update);
+
 app.listen(process.env.PORT || 3000);
