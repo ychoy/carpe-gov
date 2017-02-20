@@ -135,6 +135,7 @@ function fetchAndReRenderBillWithId(billId) {
 function handleDeleteActionItemClick(e) {
   e.preventDefault();  // this is a form!
 
+
   var actionItemId = $(this).data('ai-id');
   console.log(actionItemId);
   var billId = $(this).closest('form').data('bill-id');
@@ -259,8 +260,7 @@ function handleSaveChangesClick(e) {
     sponsor: $billRow.find('.edit-bill-sponsor').val(),
     textUrl: $billRow.find('.edit-bill-text-url').val(),
     latestAction: $billRow.find('.edit-bill-latest-action').val(),
-  //  actionItem: $billRow.find('.edit-bill-action-item').val()
-  };
+    };
 
   console.log('PUTing data for bill', billId, 'with data', data);
 
@@ -369,7 +369,7 @@ function renderBill(bill) {
                     <span class='bill-latest-action'>${bill.latestAction}</span>
                   </li>
                   <li class='list-group-item'>
-                    <h4 class='inline-header'>Issues:</h4>
+                    <h4 class='inline-header'>Find Legislation That Affects You:</h4>
                     <span class='bill-issues'>${bill.issues}</span>
                   </li>
 
@@ -381,13 +381,13 @@ function renderBill(bill) {
               </div>
 
               <div class='col-md-2 text-center'>
-                <div><button type='submit' class='btn btn-primary text-right
-                edit-bill'>Edit</button></div> <br/>
-                <div><button type='submit' class='btn btn-success save-bill
+                <div><button type='submit' class='btn btn-primary btn-lg
+                edit-bill'><span class="glyphicon glyphicon-pencil"></span></button></div> <br/>
+                <div><button type='submit' class='btn btn-success btn-lg save-bill
                 hidden'>Save</button></div> <br/>
-                <div><button type='submit' class='btn btn-danger delete-bill
-                hidden'>Delete</button></div> <br/>
-                <div><button type='submit' class='btn btn-default cancel-edit
+                <div><button type='submit' class='btn btn-danger btn-lg delete-bill
+                hidden'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></div> <br/>
+                <div><button type='submit' class='btn btn-default btn-lg cancel-edit
                 hidden'>Cancel</button></div> <br/>
               </div>
             </div>
@@ -395,8 +395,8 @@ function renderBill(bill) {
             <!-- end of bill internal row -->
             <div class='panel-footer col-md-9 col-md-offset-1'>
               <div class='panel-footer action-items'>
-                <button class='btn btn-primary add-actionItem'>Add Action Item</button>
-                <button class='btn btn-info edit-actionItems'>Edit Action Items</button>
+                <button class='btn btn-primary btn-lg add-actionItem'>Add Action Item</button>
+                <button class='btn btn-info btn-lg edit-actionItems'>Edit Action Items</button>
               </div>
               </div>
             </div>
