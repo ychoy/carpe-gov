@@ -76,10 +76,10 @@ function handleUpdateActionItemsSave(event) {
     // in here this is a form element
     var aactionItem = {};
     aactionItem._id = $(this).attr('id');
-    aactionItem.name = $(this).find('input.actionItem-title').val();
-    aactionItem.trackNumber = $(this).find('input.actionItem-description').val();
-    aactionItem.trackNumber = $(this).find('input.actionItem-dueDate').val();
-    aactionItem.trackNumber = $(this).find('input.actionItem-status').val();
+    aactionItem.title = $(this).find('input.actionItem-title').val();
+    aactionItem.description = $(this).find('input.actionItem-description').val();
+    aactionItem.dueDate = $(this).find('input.actionItem-dueDate').val();
+    aactionItem.status = $(this).find('input.actionItem-status').val();
 
     console.log('found updated data for actionItem: ', aactionItem);
     updatedActionItems.push(aactionItem);
