@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
-
 var Schema = mongoose.Schema;
+
 var actionItem = require('./actionItem');
 
 var BillSchema = new Schema({

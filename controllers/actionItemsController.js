@@ -23,33 +23,14 @@ function create(req, res) {
   });
 }
 
-// app.delete('/api/bills/:billsId/actionItems/:actionItemId',
-// controllers.actionItems.destroy);
-function destroy(req, res) {
-  db.bill.findById(req.params.billId, function(err, foundBill) {
-    console.log(foundBill);
-    // we've got the bill, now find the action item within it
-    var correctActionItem = foundBill.actionItems.id(req.params.actionItemId);
-    if (correctActionItem) {
-      correctactionItem.remove();
-      // resave the bill now that the actionItem is gone
-      foundBill.save(function(err, saved) {
-        console.log('REMOVED ', correctActionItem.title, 'FROM ', saved.actionItems);
-        res.json(correctActionItem);
-      });
-    } else {
-      res.send(404);
-    }
-  });
-}
 
-//app.put('/api/bills/:billsId/actionItems/:actionItemId',
+//app.put('/api/bills/:billsId/actionItems/:actionItemsId',
 //controllers.actionItems.update);
 function update(req, res) {
   db.bill.findById(req.params.billId, function(err, foundBill) {
     console.log(foundBill);
     // we've got the bill, now find the actionItem within it
-    var correctActionItem = foundBill.actionItems.id(req.params.actionItemId);
+    var correctActionItem = foundBill.actionItems.id(req.params.actionItemsId);
     if (correctActionItem) {
       console.log(req.body);
       correctActionItem.title = req.body.title;
@@ -67,6 +48,27 @@ function update(req, res) {
   });
 
 }
+
+// app.delete('/api/bills/:billsId/actionItems/:actionItemId',
+// controllers.actionItems.destroy);
+function destroy(req, res) {
+  db.bill.findById(req.params.billId, function(err, foundBill) {
+    console.log(foundBill);
+    // we've got the bill, now find the action item within it
+    var correctActionItem = foundBill.actionItems.id(req.params.actionItemId);
+    if (correctActionItem) {
+      correctActionItem.remove();
+      // resave the bill now that the action item is gone
+      foundBill.save(function(err, saved) {
+        console.log('REMOVED ', correctActionItem.title, 'FROM ', saved.actionItems);
+        res.json(correctActionItem);
+      });
+    } else {
+      res.send(404);
+    }
+  });
+}
+
 
 module.exports = {
   index: index,
