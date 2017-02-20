@@ -57,12 +57,11 @@ $(document).ready(function() {
 });
 //End of Document Ready Function!
 
-
 function handleUpdateActionItemsSave(event) {
-  // build all the action items objects up
+  // build all the actionItems objects up
   var $modal = $('#editActionItemsModal');
   if($modal.find('form').length < 1) {
-    // if there are no form elements, then there are no action items to update
+    // if there are no form elements, then there are no actionItems to update
     $modal.modal('hide');
     return;
   }
@@ -71,15 +70,20 @@ function handleUpdateActionItemsSave(event) {
 
   var updatedActionItems = [];
   // see https://api.jquery.com/each/
-  $modal.find('form').each(function () {
+    $modal.find('form').each(function () {
     // in here this is a form element
-    var anActionItem = {};
-    anActionItem._id = $(this).attr('id');
-    anActionItem.title = $(this).find('input.actionItemTitle').val();
-    anActionItem.description = $(this).find('input.actionItemDescription').val();
-    anActionItem.dueDate = $(this).find('input.actionItemDueDate').val();
-    console.log('found updated data for action item: ', anActionItem);
-    updatedActionItems.push(anActionItem);
+
+    // in here this is a form element
+    var aactionItem = {};
+    aactionItem._id = $(this).attr('id');
+    aactionItem.name = $(this).find('input.actionItem-title').val();
+    aactionItem.trackNumber = $(this).find('input.actionItem-description').val();
+    aactionItem.trackNumber = $(this).find('input.actionItem-dueDate').val();
+    aactionItem.trackNumber = $(this).find('input.actionItem-status').val();
+
+    console.log('found updated data for actionItem: ', aactionItem);
+    updatedActionItems.push(aactionItem);
+    console.log(updatedActionItems);
   });
   // at this point we should have an array of actionItems to PUT to the server
   // this is going to be a lot of requests and after all of them we have to update the page again
@@ -92,8 +96,8 @@ function updateMultipleActionItems(billId, actionItems) {
   // We're going to kick off as many PUT requests as we need - 1 per actionItemId
   // We'll keep track of the promises from each and once they are ALL done then
   //   we'll re-render the entire bill again.
-  // We don't want to re-render BEFORE the PUT requests are complete because the data we fetch back
-  //   might not have all the updates in it yet!
+  // We don't want to re-render BEFORE the PUT requests are complete because the
+  // data we fetch back might not have all the updates in it yet!
   var url = '/api/bills/' + billId + '/actionItems/';
   var deferreds = [];
 
@@ -102,9 +106,11 @@ function updateMultipleActionItems(billId, actionItems) {
       method: 'PUT',
       url: url + actionItem._id,
       data: actionItem,
-      error: function(err) { console.log('Error updating action item', actionItem.title, err); }
+      error: function(err) { console.log('Error updating action item',
+      actionItem.title, err); }
     });
     deferreds.push(ajaxCall);
+    console.log(deferreds);
   });
 
   // wait for all the deferreds then, refetch and re-render the bill
@@ -128,9 +134,10 @@ function fetchAndReRenderBillWithId(billId) {
 // when a delete button in the edit actionItems modal is clicked
 function handleDeleteActionItemClick(e) {
   e.preventDefault();  // this is a form!
-  var $thisButton = $(this);
-  var actionItemId = $thisButton.data('actionItem-id');
-  var billId = $thisButton.closest('form').data('bill-id');
+
+  var actionItemId = $(this).data('ai-id');
+  console.log(actionItemId);
+  var billId = $(this).closest('form').data('bill-id');
 
   var url = '/api/bills/' + billId + '/actionItems/' + actionItemId;
   console.log('send DELETE ', url);
@@ -175,24 +182,29 @@ function populateEditActionItemsModal(actionItems, billId) {
 
 function buildEditActionItemsForms(actionItems, billId) {
   // create a edit form for each action item, using the same billId for all of them
+
   var actionItemEditFormHtmlStrings = actionItems.map(function(actionItem){
     return (`
       <form class="form-inline" id="${actionItem._id}" data-bill-id="${billId}" >
 
         <div class="form-group">
-          <input type="text" class="form-control actionItemTitle" value="${actionItem.title}">
+          <input type="text" class="form-control actionItem-title" value="${actionItem.title}">
         </div>
 
         <div class="form-group">
-          <input type="text" class="form-control actionItemDescription" value="${actionItem.description}">
+          <input type="text" class="form-control actionItem-description" value="${actionItem.description}">
         </div>
 
         <div class="form-group">
-          <input type="text" class="form-control actionItemDueDate" value="${actionItem.dueDate}">
+          <input type="text" class="form-control actionItem-dueDate" value="${actionItem.dueDate}">
         </div>
 
         <div class="form-group">
-          <button class="btn btn-danger" data-actionItem-id="${actionItem._id}">x</button>
+          <input type="text" class="form-control actionItem-status" value="${actionItem.status}">
+        </div>
+
+        <div class="form-group">
+          <button class="btn btn-danger" data-ai-id="${actionItem._id}">x</button>
         </div>
       </form>
     `);
@@ -205,6 +217,9 @@ function buildEditActionItemsForms(actionItems, billId) {
 //handles the click on the Edit button of each bill, renders edit bill form
 function handleBillEditClick(e){
     var $billRow = $(this).closest('.bill');
+    var billId = $billRow.data('bill-id');
+    console.log('edit bill:', billId);
+
     // show the save changes/delete buttons
     $billRow.find('.save-bill').toggleClass('hidden');
     $billRow.find('.delete-bill').toggleClass('hidden');
@@ -246,6 +261,9 @@ function handleSaveChangesClick(e) {
     latestAction: $billRow.find('.edit-bill-latest-action').val(),
   //  actionItem: $billRow.find('.edit-bill-action-item').val()
   };
+
+  console.log('PUTing data for bill', billId, 'with data', data);
+
   $.ajax({
     method: 'PUT',
     url: '/api/bills/' + billId,
@@ -295,6 +313,7 @@ function getBillsAndRender(params) {
   });
 }
 
+
 // initial onsuccess function to GET all bills and render them to page
 function renderMultipleBills(bills) {
   bills.forEach(function(bill) {
@@ -304,10 +323,11 @@ function renderMultipleBills(bills) {
 
 function renderActionItem(actionItem){
   return `<span>
-          <p><h4>${actionItem.title}</h4> </p>
+          <p><h4>${actionItem.title}</h4></p>
           <p><strong>Description</strong></p>
           <p> ${actionItem.description}</p>
-          <p>Due: ${actionItem.dueDate} </p>
+          <p><strong>Due: </strong> ${actionItem.dueDate} </p>
+          <p><strong>Status: </strong> ${actionItem.status} </p>
           </span>`
 }
 
@@ -376,7 +396,6 @@ function renderBill(bill) {
             <div class='panel-footer col-md-9 col-md-offset-1'>
               <div class='panel-footer action-items'>
                 <button class='btn btn-primary add-actionItem'>Add Action Item</button>
-                <button class='btn btn-success save-actionItem hidden'>Save Changes</button>
                 <button class='btn btn-info edit-actionItems'>Edit Action Items</button>
               </div>
               </div>
@@ -433,7 +452,7 @@ function handleCloseAddBillClick(e){
 // when the add action item button is clicked, display the modal
 function handleAddActionItemClick(e) {
   console.log('add-actionItem clicked!');
-  var currentBillId = $(this).closest('.bill').data('billId');
+  var currentBillId = $(this).closest('.bill').data('bill-id');
   console.log('id',currentBillId);
   $('#actionItemModal').data('bill-id', currentBillId);
   $('#actionItemModal').modal();  // display the modal
@@ -443,29 +462,35 @@ function handleAddActionItemClick(e) {
 function handleNewActionItemSubmit(e) {
   e.preventDefault();
   var $modal = $('#actionItemModal');
-  var $aITitleField = $modal.find('#actionItemTitle');
-  var $aIDescriptionField = $modal.find('#actionItemDescription');
-  var $aIDueDateField = $modal.find('#actionItemDueDate');
+  var $actionItemTitleField = $modal.find('#actionItemTitle');
+  var $actionItemDescriptionField = $modal.find('#actionItemDescription');
+  var $actionItemDueDateField = $modal.find('#actionItemDueDate');
+  var $actionItemStatusField = $modal.find('#actionItemStatus');
 
   // get data from modal fields
   // note the server expects the keys to be the action item attributes, so we use those.
   var dataToPost = {
-    title: $aITitleField.val(),
-    description: $aIDescriptionField.val(),
-    dueDate: $aIDueDateField.val()
+    title: $actionItemTitleField.val(),
+    description: $actionItemDescriptionField.val(),
+    dueDate: $actionItemDueDateField.val(),
+    status: $actionItemStatusField.val()
   };
   var billId = $modal.data('billId');
-  console.log('retrieved title:', dataToPost.title, ' description:',
-  dataToPost.description, ' and due date:', dataToPost.dueDate,
-  ' for bill with id: ', billId);
+  // change from dataToPost object attr to IDs for action items.
+  // if this doesn't work try title, description, etc.
+
+  console.log('retrieved title:', actionItemTitle, ' description:',
+  actionItemDescription, ' due date:', actionItemDueDate,
+  'status:', actionItemStatus, ' for bill with id: ', billId);
   // POST to SERVER
   var actionItemPostToServerUrl = '/api/bills/'+ billId + '/actionItems';
   $.post(actionItemPostToServerUrl, dataToPost, function(data) {
     console.log('received data from post to /actionItems:', data);
     // clear form
-    $aITitleField.val(''),
-    $aIDescriptionField.val(''),
-    $aIDueDateField.val('')
+    $actionItemTitleField.val(''),
+    $actionItemDescriptionField.val(''),
+    $actionItemDueDateField.val(''),
+    $actionItemStatusField.val('')
 
     // close modal
     $modal.modal('hide');
