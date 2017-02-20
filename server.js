@@ -16,23 +16,16 @@ app.get('/', function (req, res) {
 
 // JSON API endpoints
 app.get('/api', controllers.api.index);
-
 app.get('/api/bills', controllers.bills.index);
-
 app.get('/api/bills/:billId', controllers.bills.show);
-
 app.post('/api/bills', controllers.bills.create);
-
 app.put('/api/bills/:billId', controllers.bills.update);
-
 app.delete('/api/bills/:billId', controllers.bills.destroy);
 
 app.get('/api/bills/:billId/actionItems', controllers.actionItems.index);
-
+app.get('/api/bills/:billId/actionItems/:actionItemId', controllers.actionItems.show);
 app.post('/api/bills/:billId/actionItems', controllers.actionItems.create);
-
 app.delete('/api/bills/:billId/actionItems/:actionItemId', controllers.actionItems.destroy);
-
 app.put('/api/bills/:billId/actionItems/:actionItemId', controllers.actionItems.update);
 
 app.listen(process.env.PORT || 3000);
