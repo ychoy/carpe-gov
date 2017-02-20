@@ -1,13 +1,13 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var ActionItemSchema = new Schema({
+var actionItemSchema = new Schema({
   title: String,
   description: String,
   dueDate: String,
   status: Boolean
 });
 
-var ActionItem = mongoose.model('Action Item', ActionItemSchema);
+var actionItem = mongoose.model('Action Item', actionItemSchema);
 
-module.exports = ActionItem;
+module.exports = actionItem;

@@ -40,11 +40,11 @@ $(document).ready(function() {
 
   // save action items modal save button
   $('#saveActionItem').on('click', handleNewActionItemSubmit);
-  $('#bill').on('click', '.edit-ActionItems', handleEditActionItemsClick);
+  $('#bills').on('click', '.edit-actionItems', handleEditActionItemsClick);
 
   // edit action items modal triggers
   $('#editActionItemsModalBody').on('click', 'button.btn-danger', handleDeleteActionItemClick);
-  $('#editActionItemsModal').on('click', 'button#editActionItemsSubmit', handleUpdateActionItemsSave);
+  $('#editActionItemsModal').on('click', 'button#editActionItemsModalSubmit', handleUpdateActionItemsSave);
 
   //click add bill button to get dropdown add bill form
   $(function(){
@@ -75,16 +75,15 @@ function handleUpdateActionItemsSave(event) {
     // in here this is a form element
     var anActionItem = {};
     anActionItem._id = $(this).attr('id');
-    anActionItem.title = $(this).find('input.actionItem-title').val();
-    anActionItem.description = $(this).find('input.actionItem-description').val();
-    anActionItem.dueDate = $(this).find('input.actionItem-dueDate').val();
-    console.log('found updated data for actionItem: ', anActionItem);
-    updatedactionItems.push(anActionItem);
+    anActionItem.title = $(this).find('input.actionItemTitle').val();
+    anActionItem.description = $(this).find('input.actionItemDescription').val();
+    anActionItem.dueDate = $(this).find('input.actionItemDueDate').val();
+    console.log('found updated data for action item: ', anActionItem);
+    updatedActionItems.push(anActionItem);
   });
   // at this point we should have an array of actionItems to PUT to the server
-  //   this is going to be a lot of requests and after all of them we have to update the page again
-  //   maybe we should display a spinner to let the user know the requests are processing ?
-  //   but let's just take the easy route - hide the modal and continue processing in the background
+  // this is going to be a lot of requests and after all of them we have to update the page again
+  // hide the modal and continue processing in the background
   $modal.modal('hide');
   updateMultipleActionItems(billId, updatedActionItems);
 }
@@ -101,7 +100,7 @@ function updateMultipleActionItems(billId, actionItems) {
   actionItems.forEach(function(actionItem) {
     var ajaxCall = $.ajax({
       method: 'PUT',
-      url: url + actionItems._id,
+      url: url + actionItem._id,
       data: actionItem,
       error: function(err) { console.log('Error updating action item', actionItem.title, err); }
     });
@@ -138,12 +137,12 @@ function handleDeleteActionItemClick(e) {
   $.ajax({
     method: 'DELETE',
     url: url,
-    success: handleactionItemDeleteResponse
+    success: handleActionItemDeleteResponse
   });
 }
 
-function handleactionItemDeleteResponse(data) {
-  console.log('handleactionItemDeleteResponse got ', data);
+function handleActionItemDeleteResponse(data) {
+  console.log('handleActionItemDeleteResponse got ', data);
   var actionItemId = data._id;
   var $formRow = $('form#' + actionItemId);
   // since billId isn't passed to this function, we'll deduce it from the page
@@ -153,19 +152,25 @@ function handleactionItemDeleteResponse(data) {
   fetchAndReRenderBillWithId(billId);
 }
 
-// when edit actionItems button clicked
+// when edit songs button clicked
 function handleEditActionItemsClick(e) {
   var $billRow = $(this).closest('.bill');
   var billId = $billRow.data('bill-id');
-  console.log('edit action items for ', billId);
-  // seems we need the list of action items - later, when you see full front-end
-  // frameworks, this'll be a little easier, for now - lets request the data we need
+  console.log('edit songs clicked for ', billId);
   $.get('/api/bills/' + billId + "/actionItems", function(actionItems) {
-    console.log('got back actionItems: ', actionItems);
+    console.log('got back action items: ', actionItems);
     populateEditActionItemsModal(actionItems, billId);
-    // fire the modal
+    // fire zee modal!
     $('#editActionItemsModal').modal();
   });
+}
+
+// takes an array of actionItems and generates an EDIT form for them
+function populateEditActionItemsModal(actionItems, billId) {
+  var editActionItemsFormsHtml = buildEditActionItemsForms(actionItems, billId);
+  // find the modal's body and replace it with the generated html
+  $('#editActionItemsModal').modal();
+  $('#editActionItemsModalBody').html(editActionItemsFormsHtml);
 }
 
 function buildEditActionItemsForms(actionItems, billId) {
@@ -175,11 +180,15 @@ function buildEditActionItemsForms(actionItems, billId) {
       <form class="form-inline" id="${actionItem._id}" data-bill-id="${billId}" >
 
         <div class="form-group">
-          <input type="text" class="form-control actionItem-title" value="${actionItem.title}">
+          <input type="text" class="form-control actionItemTitle" value="${actionItem.title}">
         </div>
 
         <div class="form-group">
-          <input type="text" class="form-control actionItem-description" value="${actionItem.description}">
+          <input type="text" class="form-control actionItemDescription" value="${actionItem.description}">
+        </div>
+
+        <div class="form-group">
+          <input type="text" class="form-control actionItemDueDate" value="${actionItem.dueDate}">
         </div>
 
         <div class="form-group">
@@ -192,13 +201,87 @@ function buildEditActionItemsForms(actionItems, billId) {
   return actionItemEditFormHtmlStrings.join(""); // combine all the forms into a single string
 }
 
-// takes an array of actionItems and generates an EDIT form for them
-function populateEditActionItemsModal(actionItems, billId) {
-  var editActionItemsFormsHtml = buildEditActionItemsForms(actionItems, billId);
-  // find the modal's body and replace it with the generated html
-  $('#editActionItemsModalBody').html(EditActionItemsFormsHtml);
+
+//handles the click on the Edit button of each bill, renders edit bill form
+function handleBillEditClick(e){
+    var $billRow = $(this).closest('.bill');
+    // show the save changes/delete buttons
+    $billRow.find('.save-bill').toggleClass('hidden');
+    $billRow.find('.delete-bill').toggleClass('hidden');
+    $billRow.find('.cancel-edit').toggleClass('hidden');
+    // hide the edit button
+    $billRow.find('.edit-bill').toggleClass('hidden');
+    // get the bill title and replace its field with an input element
+    var billTitle = $billRow.find('span.bill-title').text();
+    $billRow.find('span.bill-title').html('<input class="edit-bill-title form-control" value="' + billTitle + '"></input>');
+    // get the bill summary and replace its field with an input element
+    var billSummary = $billRow.find('span.bill-summary').text();
+    $billRow.find('span.bill-summary').html('<input class="edit-bill-summary form-control" value="' + billSummary + '"></input>');
+    // get the bill sponsor and replace its field with an input element
+    var billSponsor = $billRow.find('span.bill-sponsor').text();
+    $billRow.find('span.bill-sponsor').html('<input class="edit-bill-sponsor form-control" value="' + billSponsor + '"></input>');
+    // get the bill text url and replace its field with an input element
+    var billTextUrl = $billRow.find('.bill-text-url').attr('href');
+    $billRow.find('.bill-text-url').html('<input class="edit-bill-text-url form-control" value="' + billTextUrl + '"></input>');
+    // get the bill latest action and replace its field with an input element
+    var billLatestAction = $billRow.find('span.bill-latest-action').text();
+    $billRow.find('span.bill-latest-action').html('<input class="edit-bill-latest-action form-control" value="' + billLatestAction + '"></input>');
+    // get the bill issues and replace its field with an input element
+    var billIssues = $billRow.find('span.bill-issues').text();
+    $billRow.find('span.bill-issues').html('<input class="edit-bill-issues form-control" value="' + billIssues + '"></input>');
+    // get the bill issues and replace its field with an input element
+//    var billActionItems = $billRow.find('span.bill-actionItems').text();
+//    $billRow.find('span.bill-actionItems').html('<input class="edit-bill-action-item form-control" value="' + billActionItems + '"></input>');
 }
 
+// after editing the bill, when the save changes button is clicked
+function handleSaveChangesClick(e) {
+  var billId = $(this).closest('.bill').data('bill-id');
+  var $billRow = $('[data-bill-id=' + billId + ']');
+  var data = {
+    title: $billRow.find('.edit-bill-title').val(),
+    summary: $billRow.find('.edit-bill-summary').val(),
+    sponsor: $billRow.find('.edit-bill-sponsor').val(),
+    textUrl: $billRow.find('.edit-bill-text-url').val(),
+    latestAction: $billRow.find('.edit-bill-latest-action').val(),
+  //  actionItem: $billRow.find('.edit-bill-action-item').val()
+  };
+  $.ajax({
+    method: 'PUT',
+    url: '/api/bills/' + billId,
+    data: data,
+    success: handleBillUpdatedResponse
+  });
+}
+
+//onsuccess function of put ajax call PUTing data for bill
+function handleBillUpdatedResponse(data) {
+  var billId = data._id;
+  $('[data-bill-id=' + billId + ']').remove();
+  renderBill(data);
+  $('[data-bill-id=' + billId + ']')[0].scrollIntoView();
+}
+
+// when a delete button for an bill is clicked
+function handleDeleteBillClick(e) {
+  var billId = $(this).parents('.bill').data('bill-id');
+  $.ajax({
+    url: '/api/bills/' + billId,
+    method: 'DELETE',
+    success: handleDeleteBillSuccess
+  });
+}
+
+// callback after DELETE /api/bills/:id
+function handleDeleteBillSuccess(data) {
+  var deletedBillId = data._id;
+  $('div[data-bill-id=' + deletedBillId + ']').remove();
+}
+
+// cancels edits in edit bills form and returns to homepage
+function handleCancelEditClick(e) {
+  window.location.reload();
+}
 
 
 function getBillsAndRender(params) {
@@ -289,12 +372,12 @@ function renderBill(bill) {
               </div>
             </div>
 
-            <!-- end of billinternal row -->
+            <!-- end of bill internal row -->
             <div class='panel-footer col-md-9 col-md-offset-1'>
               <div class='panel-footer action-items'>
                 <button class='btn btn-primary add-actionItem'>Add Action Item</button>
                 <button class='btn btn-success save-actionItem hidden'>Save Changes</button>
-                <button class='btn btn-info edit-ActionItems'>Edit Action Items</button>
+                <button class='btn btn-info edit-actionItems'>Edit Action Items</button>
               </div>
               </div>
             </div>
@@ -307,86 +390,6 @@ function renderBill(bill) {
   $('#bills').append(billHtml);
 }
 
-//handles the click on the Edit button of each bill, renders edit bill form
-function handleBillEditClick(e){
-    var $billRow = $(this).closest('.bill');
-    // show the save changes/delete buttons
-    $billRow.find('.save-bill').toggleClass('hidden');
-    $billRow.find('.delete-bill').toggleClass('hidden');
-    $billRow.find('.cancel-edit').toggleClass('hidden');
-    // hide the edit button
-    $billRow.find('.edit-bill').toggleClass('hidden');
-    // get the bill title and replace its field with an input element
-    var billTitle = $billRow.find('span.bill-title').text();
-    $billRow.find('span.bill-title').html('<input class="edit-bill-title form-control" value="' + billTitle + '"></input>');
-    // get the bill summary and replace its field with an input element
-    var billSummary = $billRow.find('span.bill-summary').text();
-    $billRow.find('span.bill-summary').html('<input class="edit-bill-summary form-control" value="' + billSummary + '"></input>');
-    // get the bill sponsor and replace its field with an input element
-    var billSponsor = $billRow.find('span.bill-sponsor').text();
-    $billRow.find('span.bill-sponsor').html('<input class="edit-bill-sponsor form-control" value="' + billSponsor + '"></input>');
-    // get the bill text url and replace its field with an input element
-    var billTextUrl = $billRow.find('.bill-text-url').attr('href');
-    $billRow.find('.bill-text-url').html('<input class="edit-bill-text-url form-control" value="' + billTextUrl + '"></input>');
-    // get the bill latest action and replace its field with an input element
-    var billLatestAction = $billRow.find('span.bill-latest-action').text();
-    $billRow.find('span.bill-latest-action').html('<input class="edit-bill-latest-action form-control" value="' + billLatestAction + '"></input>');
-    // get the bill issues and replace its field with an input element
-    var billIssues = $billRow.find('span.bill-issues').text();
-    $billRow.find('span.bill-issues').html('<input class="edit-bill-issues form-control" value="' + billIssues + '"></input>');
-    // get the bill issues and replace its field with an input element
-//    var billActionItems = $billRow.find('span.bill-actionItems').text();
-//    $billRow.find('span.bill-actionItems').html('<input class="edit-bill-action-item form-control" value="' + billActionItems + '"></input>');
-}
-
-// after editing the bill, when the save changes button is clicked
-function handleSaveChangesClick(e) {
-  var billId = $(this).closest('.bill').data('bill-id');
-  var $billRow = $('[data-bill-id=' + billId + ']');
-  var data = {
-    title: $billRow.find('.edit-bill-title').val(),
-    summary: $billRow.find('.edit-bill-summary').val(),
-    sponsor: $billRow.find('.edit-bill-sponsor').val(),
-    textUrl: $billRow.find('.edit-bill-text-url').val(),
-    latestAction: $billRow.find('.edit-bill-latest-action').val(),
-  //  actionItem: $billRow.find('.edit-bill-action-item').val()
-  };
-  $.ajax({
-    method: 'PUT',
-    url: '/api/bills/' + billId,
-    data: data,
-    success: handleBillUpdatedResponse
-  });
-}
-
-//onsuccess function of put ajax call PUTing data for bill
-function handleBillUpdatedResponse(data) {
-  var billId = data._id;
-  $('[data-bill-id=' + billId + ']').remove();
-  renderBill(data);
-  $('[data-bill-id=' + billId + ']')[0].scrollIntoView();
-}
-
-// when a delete button for an bill is clicked
-function handleDeleteBillClick(e) {
-  var billId = $(this).parents('.bill').data('bill-id');
-  $.ajax({
-    url: '/api/bills/' + billId,
-    method: 'DELETE',
-    success: handleDeleteBillSuccess
-  });
-}
-
-// callback after DELETE /api/bills/:id
-function handleDeleteBillSuccess(data) {
-  var deletedBillId = data._id;
-  $('div[data-bill-id=' + deletedBillId + ']').remove();
-}
-
-// cancels edits in edit bills form and returns to homepage
-function handleCancelEditClick(e) {
-  window.location.reload();
-}
 
 //filters bills by funding issue in dropdown menu
 function filterBillsByFunding(e){
