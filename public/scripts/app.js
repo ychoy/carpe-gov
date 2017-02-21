@@ -364,9 +364,18 @@ function renderMultipleBills(bills) {
 function renderActionItem(actionItem){
  return `<span>
          <p><h4>${actionItem.title}</h4></p>
-         <p>${actionItem.rep1Name}</p> <p> ${actionItem.rep1ActionUrl} </p>
-         <p>${actionItem.rep2Name}</p> <p> ${actionItem.rep2ActionUrl} </p>
-         <p>${actionItem.rep3Name}</p> <p> ${actionItem.rep3ActionUrl} </p>
+         <ul>
+           <li>
+              <strong>Contact ${actionItem.rep1Name}:</strong> ${actionItem.rep1ActionUrl}
+            </li>
+            <li>
+              <strong>Contact ${actionItem.rep2Name}:</strong> ${actionItem.rep2ActionUrl}
+            </li>
+            <li>
+              <strong>Contact ${actionItem.rep3Name}:</strong> ${actionItem.rep3ActionUrl}
+            </li>
+         </ul>
+         <br>
          <p><strong>Due: </strong> ${actionItem.dueDate} </p>
          <p><strong>Status: </strong> ${actionItem.status} </p>
          <br>
@@ -375,99 +384,71 @@ function renderActionItem(actionItem){
 
 // onsuccess function of POST which renders add bill form input to page
 function renderBill(bill) {
- console.log('rendering bill', bill);
+  bill.actionItemsHtml = bill.actionItems.map(renderActionItem).join('');
+    var billHtml = (`
+      <div class='row bill' data-bill-id='${bill._id}'>
+        <div class='col-md-8 col-md-offset-2'>
+          <div class='panel panel-default'>
+            <div class='panel-body'>
+            <!-- begin bill internal row -->
+              <div class='row'>
+                <div class='col-md-9 col-md-offset-1'>
+                  <ul class='list-group'>
+                    <li class='list-group-item'>
+                      <h4 class='inline-header'>Bill Title:</h4>
+                      <span class='bill-title'>${bill.title} </span>
+                    </li>
+                    <li class='list-group-item'>
+                      <h4 class='inline-header'>Summary:</h4>
+                      <span class='bill-summary'>${bill.summary}</span>
+                    </li>
+                    <li class='list-group-item'>
+                      <h4 class='inline-header'>Sponsor:</h4>
+                      <span class='bill-sponsor'>${bill.sponsor}</span>
+                    </li>
+                    <li class='list-group-item'>
+                      <h4 class='inline-header'>Text:</h4>
+                      <a class='bill-text-url' href="${bill.textUrl}">Read Text
+                      </a>
+                    </li>
+                    <li class='list-group-item'>
+                      <h4 class='inline-header'>Latest Action:</h4>
+                      <span class='bill-latest-action'>${bill.latestAction}</span>
+                    </li>
+                    <li class="list-group-item">
+                      <h4 class="inline-header">Action Items:</h4>
+                      <span class='bill-actionItems'>${bill.actionItemsHtml}</span>
 
- bill.actionItemsHtml = bill.actionItems.map(renderActionItem).join('');
+                  </li>
+                  </ul>
+                </div>
+                <div class='col-md-2 text-center'>
+                  <div><button type='submit' class='btn btn-primary btn-lg
+                  edit-bill'><span class="glyphicon glyphicon-pencil"></span></button></div> <br/>
+                  <div><button type='submit' class='btn btn-success btn-lg save-bill
+                  hidden'><span class="glyphicon glyphicon-floppy-saved"></button></div> <br/>
+                  <div><button type='submit' class='btn btn-danger btn-lg delete-bill
+                  hidden'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></div> <br/>
+                  <div><button type='submit' class='btn btn-default btn-lg cancel-edit
+                  hidden'><span class="glyphicon glyphicon-remove"</button></div> <br/>
+                </div>
+              </div>
+              <!-- end of bill internal row -->
+              <div class='panel-footer col-md-9 col-md-offset-1'>
+                <div class='panel-footer action-items'>
+                  <button class='btn btn-primary btn-lg add-actionItem'>Add Action Item</button>
+                  <button class='btn btn-info btn-lg edit-actionItems'>Edit Action Items</button>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end one bill -->`);
 
- var billHtml = (`
-   <div class='row bill' data-bill-id='${bill._id}'>
-     <div class='col-md-8 col-md-offset-2'>
-       <div class='panel panel-default'>
-         <div class='panel-body'>
-         <!-- begin bill internal row -->
-           <div class='row'>
-             <div class='col-md-9 col-md-offset-1'>
-               <ul class='list-group'>
-                 <li class='list-group-item'>
-                   <h4 class='inline-header'>Bill Title:</h4>
-                   <span class='bill-title'>${bill.title} </span>
-                 </li>
-                 <li class='list-group-item'>
-                   <h4 class='inline-header'>Summary:</h4>
-                   <span class='bill-summary'>${bill.summary}</span>
-                 </li>
-                 <li class='list-group-item'>
-                   <h4 class='inline-header'>Sponsor:</h4>
-                   <span class='bill-sponsor'>${bill.sponsor}</span>
-                 </li>
-                 <li class='list-group-item'>
-                   <h4 class='inline-header'>Text:</h4>
-                   <a class='bill-text-url' href="${bill.textUrl}">Read Text
-                   </a>
-                 </li>
-                 <li class='list-group-item'>
-                   <h4 class='inline-header'>Latest Action:</h4>
-                   <span class='bill-latest-action'>${bill.latestAction}</span>
-                 </li>
-                 <li class='list-group-item'>
-                   <h4 class='inline-header'>Issues:</h4>
-                   <span class='bill-issues'>${bill.issues}</span>
-                 </li>
-                 <li class="list-group-item">
-                 <h4 class="inline-header">Action Items:</h4>
-                 <span class='bill-actionItems'>${bill.actionItemsHtml}</span>
-               </li>
-               </ul>
-             </div>
-             <div class='col-md-2 text-center'>
-               <div>
-                 <button type='submit' class='btn btn-primary btn-lg
-               edit-bill'>
-                   <span class="glyphicon glyphicon-pencil"></span>
-                 </button></div> <br/>
-               <div>
-                 <button type='submit' class='btn btn-success btn-lg save-bill
-               hidden'>
-                   <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>
-                 </button>
-               </div>
-               <br/>
-               <div>
-                 <button type='submit' class='btn btn-danger btn-lg delete-bill
-               hidden'>
-                   <span class="glyphicon glyphicon-floppy-remove" aria-hidden="true">
-                   </span>
-                 </button>
-               </div>
-               <br/>
-               <div>
-               <button type='submit' class='btn btn-default btn-lg cancel-edit
-               hidden'>
-                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                 </button>
-               </div>
-               <br/>
-             </div>
-           </div>
-           <!-- end of bill internal row -->
-           <div class='panel-footer col-md-9 col-md-offset-1'>
-             <div class='panel-footer action-items'>
-               <button class='btn btn-primary btn-lg add-actionItem'>
-                 <span class="glyphicon glyphicon-plus"></span> Action Items
-               </button>
-               <button class='btn btn-primary btn-lg edit-actionItems'>
-                 <span class="glyphicon glyphicon-pencil"></span> Action Items
-               </button>
-             </div>
-             </div>
-           </div>
-         </div>
-       </div>
-     </div>
-   </div>
-   <!-- end one bill -->`);
+    $('#bills').append(billHtml);
 
- $('#bills').append(billHtml);
 }
 
 
