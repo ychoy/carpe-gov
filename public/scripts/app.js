@@ -169,7 +169,7 @@ function buildEditActionItemsForms(actionItems, billId) {
              Title:
            </label>
            <div class="col-md-6">
-             <input type="text" class="form-control actionItem-title" value="${actionItem.title}">
+             <input type="text" class="form-control actionItem-title" value="${actionItem.title}" required="">
            </div>
            <label class="control-label col-md-6" for="actionItemRep1Name">
              Representative Name:
