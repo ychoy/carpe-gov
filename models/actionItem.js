@@ -1,9 +1,15 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+
 var actionItemSchema = new Schema({
   title: String,
-  description: String,
+  rep1Name: String,
+  rep2Name: String,
+  rep3Name: String,
+  rep1ActionUrl: String,
+  rep2ActionUrl: String,
+  rep3ActionUrl: String,
   dueDate: String,
   status: Boolean
 });

@@ -1,3 +1,7 @@
 .dropdown-menu {
   margin-left: 13px;
 }
+
+.modal-header {
+  padding:40px 50px;
+}
