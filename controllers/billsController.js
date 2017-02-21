@@ -2,6 +2,7 @@ var db = require('../models');
 
 // GET /api/bills
 function index(req, res) {
+  //filter bills by query type
   var type = req.query.type;
   var query = {};
   if (type) {
@@ -11,25 +12,17 @@ function index(req, res) {
       }
     };
   }
-  console.log(type, query);
-  // send back all bills as JSON
+  // send back all bills that meet filter query
   db.bill.find(query, function(err, allBills) {
-
     res.json(err||allBills);
   });
 }
 
 // POST /api/bills
 function create(req, res) {
-  // create an bill based on req body and send it back as JSON
-  console.log('body', req.body);
-  /* split at comma and remove and trailing space
-  var keywords = req.body.keywords.split(',').map(function(item) { return item.trim(); } );
-  req.body.keywords = keywords;
-  */
+  // create bill based on req body and send it back as JSON
   db.bill.create(req.body, function(err, bill) {
     if (err) { console.log('error', err); }
-    console.log(bill);
     res.json(bill);
   });
 }
@@ -39,7 +32,6 @@ function show(req, res) {
   // find one bill by id and send it back as JSON
   db.bill.findById(req.params.billId, function(err, foundBill) {
     if(err) { console.log('billsController.show error', err); }
-    console.log('billsController.show responding with', foundBill);
     res.json(foundBill);
   });
 }
@@ -47,7 +39,6 @@ function show(req, res) {
 // PUT /api/bills/:billId
 function update(req, res) {
   // find one bill by id, update it based on req body and send it back as JSON
-  console.log('updating with data', req.body);
   db.bill.findById(req.params.billId, function(err, foundBill) {
     if(err) { console.log('billsController.update error', err); }
     foundBill.title = req.body.title;
