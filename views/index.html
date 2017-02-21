@@ -51,7 +51,7 @@
                   <div class="form-group">
                     <label class="col-md-4 control-label" for="billSummary">Bill Summary</label>
                     <div class="col-md-4">
-                    <input id="billSummary" name="summary" type="text" placeholder="Bill Summary" class="form-control input-md">
+                    <input id="billSummary" name="summary" type="text" placeholder="Bill Summary" class="form-control input-md" required="">
                     </div>
                   </div>
 
@@ -59,7 +59,7 @@
                   <div class="form-group">
                     <label class="col-md-4 control-label" for="billSponsor">Bill Sponsor</label>
                     <div class="col-md-4">
-                    <input id="billSponsor" name="sponsor" type="text" placeholder="Bill Sponsor" class="form-control input-md">
+                    <input id="billSponsor" name="sponsor" type="text" placeholder="Bill Sponsor" class="form-control input-md" required="">
                     </div>
                   </div>
 
@@ -67,7 +67,7 @@
                   <div class="form-group">
                     <label class="col-md-4 control-label" for="latestAction">Latest Action</label>
                     <div class="col-md-4">
-                    <input id="latestAction" name="latestAction" type="text" placeholder="Latest Action" class="form-control input-md">
+                    <input id="latestAction" name="latestAction" type="text" placeholder="Latest Action" class="form-control input-md" required="">
                     </div>
                   </div>
 
@@ -86,20 +86,26 @@
         </div>
       </div>
     </section>
+    <br>
     <!--   END FORM   -->
 
     <!-- drop down filter by issues menu -->
-    <div id="issues" class="container">
-      <div class="dropdown col-md-2 col-md-offset-5 text-center">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Issues<b class="caret"></b></a>
-        <ul class="dropdown-menu">
-          <li class="text-center"><a href="#" class="btn funding">Funding</a></li>
-          <li class="text-center"><a href="#" class="btn vouchers">Vouchers</a></li>
-          <li class="text-center"><a href="#" class="btn affordability">Affordability</a></li>
-          <li class="text-center"><a href="#" class="btn dept-of-ed">Dept of Education</a></li>
-          <li class="divider"></li>
-          <li class="text-center"><a href="#" class="allbills">All Bills</a></li>
-        </ul>
+    <div id="issues" class="container-fluid col-md-8 col-md-offset-2">
+      <div class="dropdown text-right">
+        <button class="btn btn-default dropdown-toggle dropdown-menu-right" type="button" data-toggle="dropdown">
+          Filter Legislation by Issue
+          <span class="caret"></span>
+        </button>
+      <!--  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Issues<b class="caret"></b></a> -->
+          <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel">
+            <li><a href="#" class="btn funding">Funding</a></li>
+            <li><a href="#" class="btn vouchers">Vouchers</a></li>
+            <li><a href="#" class="btn affordability">Affordability</a></li>
+            <li><a href="#" class="btn dept-of-ed">Dept of Education</a></li>
+            <li class="divider"></li>
+            <li><a href="#" class="allbills">All Bills</a></li>
+          </ul>
+
       </div>
     </div>
 
@@ -107,6 +113,7 @@
       <div class="row">
         <div class="col-md-8 col-md-offset-2">
           <h2>Bills</h2>
+          <p>Browse bills in the United States Congress related to education.</p>
         </div>
       </div>
 
@@ -115,75 +122,93 @@
       </div>
     </section>
 
-    <!-- begin actionItemModal: this is not visible until you call .modal() on it -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="actionItemModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Add Action Item</h4>
-          </div>
+      <!-- begin actionItemModal: this is not visible until you call .modal() on it -->
+      <div class="modal fade bs-modal-lg" tabindex="-1" role="dialog" id="actionItemModal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+              <h4 class="modal-title">Add Action Item</h4>
+            </div>
 
           <div class="modal-body">
+
             <fieldset class='form-horizontal'>
               <!-- Text input-->
               <div class="form-group">
-                <label class="col-md-4 control-label" for="actionItemTitle">Action Item Title</label>
-                <div class="col-md-4">
+                <label class="col-md-6 control-label" for="actionItemTitle">
+                  Action Item Title
+                </label>
+                <div class="col-md-6">
                   <input id="actionItemTitle" name="actionItemTitle" type="text" placeholder="" class="form-control input-md" required="">
                 </div>
               </div>
 
               <!-- Description input-->
               <div class="form-group">
-                <label class="col-md-4 control-label" for="actionItemDescription">Description</label>
-                <div class="col-md-4">
-                  <input id="actionItemDescription" name="actionItemDescription" type="text" placeholder="" class="form-control input-md">
+                <label class="col-md-6 control-label" for="actionItemDescription">
+                  Description
+                </label>
+                <div class="col-md-6">
+                  <input id="actionItemDescription" name="actionItemDescription" type="text" placeholder="" class="form-control input-md" required="">
                 </div>
               </div>
 
               <!-- Due Date input-->
               <div class="form-group">
-                <label class="col-md-4 control-label" for="actionItemDueDate">Due Date</label>
-                <div class="col-md-4">
-                  <input id="actionItemDueDate" name="actionItemDueDate" type="text" placeholder="" class="form-control input-md">
+                <label class="col-md-6 control-label" for="actionItemDueDate">
+                  Due Date
+                </label>
+                <div class="col-md-6">
+                  <input id="actionItemDueDate" name="actionItemDueDate" type="text" placeholder="" class="form-control input-md" required="">
                 </div>
               </div>
 
               <!-- Status input-->
               <div class="form-group">
-                <label class="col-md-4 control-label" for="actionItemStatus">Status</label>
-                <div class="col-md-4">
-                  <input id="actionItemStatus" name="actionItemStatus" type="text" placeholder="" class="form-control input-md">
+                <label class="col-md-6 control-label" for="actionItemStatus">
+                  Status
+                </label>
+                <div class="col-md-6">
+                  <input id="actionItemStatus" name="actionItemStatus" type="text" placeholder="" class="form-control input-md" required="">
                 </div>
               </div>
-            </fieldset>
+          </fieldset>
+
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="saveActionItem">Save changes</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-success" id="saveActionItem">
+                <span class="glyphicon glyphicon-floppy-saved">
+            </button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-
-
-
-
-    <!-- Edit actionItems Modal -->
+    <!-- Edit action items Modal -->
     <div class="modal fade bs-modal-lg" id="editActionItemsModal" tabindex="-1" role="dialog" aria-labelledby="editActionItemsModalTitle">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
             <h4 class="modal-title" id="editActionItemsModalTitle">Edit Action Items</h4>
           </div>
           <div class="modal-body" id='editActionItemsModalBody'>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id='editActionItemsModalSubmit'>Save changes</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-success" id='editActionItemsModalSubmit'>
+              <span class="glyphicon glyphicon-floppy-saved"></span>
+            </button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
