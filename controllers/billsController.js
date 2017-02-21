@@ -5,12 +5,8 @@ function index(req, res) {
   //filter bills by query type
   var type = req.query.type;
   var query = {};
-  if (type) {
-    query = {
-      issues: {
-        $in: [type]
-      }
-    };
+  if (type) { query =
+    { issues: { $in: [type] } };
   }
   // send back all bills that meet filter query
   db.bill.find(query, function(err, allBills) {
