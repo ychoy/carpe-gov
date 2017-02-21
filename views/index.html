@@ -51,7 +51,7 @@
                   <div class="form-group">
                     <label class="col-md-4 control-label" for="billSummary">Bill Summary</label>
                     <div class="col-md-4">
-                    <input id="billSummary" name="summary" type="text" placeholder="Bill Summary" class="form-control input-md" required="">
+                    <input id="billSummary" name="summary" type="text" placeholder="Bill Summary" class="form-control input-md">
                     </div>
                   </div>
 
@@ -59,7 +59,7 @@
                   <div class="form-group">
                     <label class="col-md-4 control-label" for="billSponsor">Bill Sponsor</label>
                     <div class="col-md-4">
-                    <input id="billSponsor" name="sponsor" type="text" placeholder="Bill Sponsor" class="form-control input-md" required="">
+                    <input id="billSponsor" name="sponsor" type="text" placeholder="Bill Sponsor" class="form-control input-md">
                     </div>
                   </div>
 
@@ -67,7 +67,7 @@
                   <div class="form-group">
                     <label class="col-md-4 control-label" for="latestAction">Latest Action</label>
                     <div class="col-md-4">
-                    <input id="latestAction" name="latestAction" type="text" placeholder="Latest Action" class="form-control input-md" required="">
+                    <input id="latestAction" name="latestAction" type="text" placeholder="Latest Action" class="form-control input-md">
                     </div>
                   </div>
 
@@ -139,27 +139,65 @@
               <!-- Text input-->
               <div class="form-group">
                 <label class="col-md-6 control-label" for="actionItemTitle">
-                  Action Item Title
+                  Action Item Title:
                 </label>
                 <div class="col-md-6">
                   <input id="actionItemTitle" name="actionItemTitle" type="text" placeholder="" class="form-control input-md" required="">
                 </div>
               </div>
 
-              <!-- Description input-->
+              <!-- Rep 1 input-->
               <div class="form-group">
-                <label class="col-md-6 control-label" for="actionItemDescription">
-                  Description
+                <label class="col-md-6 control-label" for="actionItemRep1Name">
+                  Representative Name:
                 </label>
                 <div class="col-md-6">
-                  <input id="actionItemDescription" name="actionItemDescription" type="text" placeholder="" class="form-control input-md" required="">
+                  <input id="actionItemRep1Name" name="actionItemRep1Name" type="text" placeholder="" class="form-control input-md" required="">
+                </div>
+                <label class="col-md-6 control-label" for="actionItemRep1ActionUrl">
+                Representative Action Link:
+                </label>
+                <div class="col-md-6">
+                  <input id="actionItemRep1ActionUrl" name="actionItemRep1ActionUrl" type="text" placeholder="" class="form-control input-md" required="">
+                </div>
+              </div>
+
+              <!-- Rep 1 input-->
+              <div class="form-group">
+                <label class="col-md-6 control-label" for="actionItemRep2Name">
+                  Representative Name:
+                </label>
+                <div class="col-md-6">
+                  <input id="actionItemRep2Name" name="actionItemRep2Name" type="text" placeholder="" class="form-control input-md" required="">
+                </div>
+                <label class="col-md-6 control-label" for="actionItemRep2ActionUrl">
+                  Representative Action Link:
+                </label>
+                <div class="col-md-6">
+                  <input id="actionItemRep2ActionUrl" name="actionItemRep2ActionUrl" type="text" placeholder="" class="form-control input-md" required="">
+                </div>
+              </div>
+
+              <!-- Rep 1 input-->
+              <div class="form-group">
+                <label class="col-md-6 control-label" for="actionItemRep3Name">
+                  Representative Name:
+                </label>
+                <div class="col-md-6">
+                  <input id="actionItemRep3Name" name="actionItemRep3Name" type="text" placeholder="" class="form-control input-md" required="">
+                </div>
+                <label class="col-md-6 control-label" for="actionItemRep3ActionUrl">
+                  Representative Action Link:
+                </label>
+                <div class="col-md-6">
+                  <input id="actionItemRep3ActionUrl" name="actionItemRep3ActionUrl" type="text" placeholder="" class="form-control input-md" required="">
                 </div>
               </div>
 
               <!-- Due Date input-->
               <div class="form-group">
                 <label class="col-md-6 control-label" for="actionItemDueDate">
-                  Due Date
+                  Due Date:
                 </label>
                 <div class="col-md-6">
                   <input id="actionItemDueDate" name="actionItemDueDate" type="text" placeholder="" class="form-control input-md" required="">
@@ -169,7 +207,7 @@
               <!-- Status input-->
               <div class="form-group">
                 <label class="col-md-6 control-label" for="actionItemStatus">
-                  Status
+                  Status:
                 </label>
                 <div class="col-md-6">
                   <input id="actionItemStatus" name="actionItemStatus" type="text" placeholder="" class="form-control input-md" required="">
@@ -201,6 +239,7 @@
             <h4 class="modal-title" id="editActionItemsModalTitle">Edit Action Items</h4>
           </div>
           <div class="modal-body" id='editActionItemsModalBody'>
+
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">

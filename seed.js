@@ -45,18 +45,33 @@ billList.push({
 var actionItems = [];
 
 actionItems.push({ title: 'Call Your Representative',
-                   description: 'Call Senator Dianne Feinstein (CA) at (415) 393-0707 | Call Senator Kamala Harris (CA) at (415) 355 - 9041 | Call Representative Zoe Lofgren (CA-19) at (408) 271-8700',
-                   dueDate: '2017-02-21',
+                   rep1Name: 'Senator Dianne Feinstein',
+                   rep2Name: 'Senator Kamala Harris',
+                   rep3Name: 'Congressmember Zoe Lofgren',
+                   rep1ActionUrl: '1-415-393-0707',
+                   rep2ActionUrl: '1-415-355-9041',
+                   rep3ActionUrl: '1-408-271-8700',
+                   dueDate: 'February 21, 2017',
                    status: false
                  });
 actionItems.push({ title: 'Contact Your Representative',
-                   description: 'Contact Senator Dianne Feinstein at http://www.feinstein.senate.gov/public/index.cfm/e-mail-me | Contact Senator Kamala Harris (CA) at https://www.harris.senate.gov/content/contact-senator | Contact Representative Zoe Lofgren (CA-19) at https://lofgren.house.gov/contact/',
-                   dueDate: '2017-02-22',
-                   status: false
+                    rep1Name: 'Senator Dianne Feinstein',
+                    rep2Name: 'Senator Kamala Harris',
+                    rep3Name: 'Congressmember Zoe Lofgren',
+                    rep1ActionUrl: 'https://www.feinstein.senate.gov/public/index.cfm/e-mail-me',
+                    rep2ActionUrl: 'https://www.harris.senate.gov/content/contact-senator',
+                    rep3ActionUrl: 'https://lofgren.house.gov/contact/',
+                    dueDate: 'February 23, 2017',
+                    status: false
                  });
 actionItems.push({ title: 'Write to Your Representative',
-                   description: 'Write to Senator Dianne Feinstein at One Post Street, Suite 2450, San Francisco, CA 94104 | Write to Senator Kamala Harris (CA) at 50 United Nations Plaza, Suite 5584, San Francisco, CA  94102 | Write to Representative Zoe Lofgren (CA-19) at  635 North 1st Street, Suite B, San Jose, CA 95112.',
-                   dueDate: '2017-02-23',
+                   rep1Name: 'Senator Dianne Feinstein',
+                   rep2Name: 'Senator Kamala Harris',
+                   rep3Name: 'Congressmember Zoe Lofgren',
+                   rep1ActionUrl: 'One Post Street, Suite 2450, San Francisco, CA 94104',
+                   rep2ActionUrl: '50 United Nations Plaza, Suite 5584, San Francisco, CA  94102',
+                   rep3ActionUrl: '635 North 1st Street, Suite B, San Jose, CA 95112',
+                   dueDate: 'February 22,2017',
                    status: false
                  });
 
