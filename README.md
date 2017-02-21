@@ -35,13 +35,17 @@ Checkout the application here: [CarpeGov](http://carpegov.herokuapp.com/ "CarpeG
 * Login
 
 Demo - Create and Edit Action Items
+
 ![CarpeGov Create and Edit Action Items Demo](public/images/CGdemo_actionItems.gif "demo - create and edit action items")
 
 Demo - Add Bill
+
 ![CarpeGov Add Bill Demo](public/images/CGdemo_addBill.gif "demo - add bill")
 
 Demo - Edit Bill
+
 ![CarpeGov Edit Bill Demo](public/images/CGdemo_editBill.gif "demo - edit bill")
 
 Demo - Filter Bills
+
 ![CarpeGov Filter Bills Demo](public/images/CGdemo_filter.gif "demo - filter bills")
