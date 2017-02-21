@@ -384,19 +384,19 @@ function renderBill(bill) {
                 <div><button type='submit' class='btn btn-primary btn-lg
                 edit-bill'><span class="glyphicon glyphicon-pencil"></span></button></div> <br/>
                 <div><button type='submit' class='btn btn-success btn-lg save-bill
-                hidden'>Save</button></div> <br/>
+                hidden'><span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span></button></div> <br/>
                 <div><button type='submit' class='btn btn-danger btn-lg delete-bill
-                hidden'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></div> <br/>
+                hidden'><span class="glyphicon glyphicon-floppy-remove" aria-hidden="true"></span></button></div> <br/>
                 <div><button type='submit' class='btn btn-default btn-lg cancel-edit
-                hidden'>Cancel</button></div> <br/>
+                hidden'><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></div> <br/>
               </div>
             </div>
 
             <!-- end of bill internal row -->
             <div class='panel-footer col-md-9 col-md-offset-1'>
               <div class='panel-footer action-items'>
-                <button class='btn btn-primary btn-lg add-actionItem'>Add Action Item</button>
-                <button class='btn btn-info btn-lg edit-actionItems'>Edit Action Items</button>
+                <button class='btn btn-primary btn-lg add-actionItem'><span class="glyphicon glyphicon-plus"></span> Action Items</button>
+                <button class='btn btn-primary btn-lg edit-actionItems'><span class="glyphicon glyphicon-pencil"></span> Action Items</button>
               </div>
               </div>
             </div>

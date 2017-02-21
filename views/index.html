@@ -86,20 +86,26 @@
         </div>
       </div>
     </section>
+    <br>
     <!--   END FORM   -->
 
     <!-- drop down filter by issues menu -->
-    <div id="issues" class="container">
-      <div class="dropdown col-md-2 col-md-offset-5 text-center">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Issues<b class="caret"></b></a>
-        <ul class="dropdown-menu">
-          <li class="text-center"><a href="#" class="btn funding">Funding</a></li>
-          <li class="text-center"><a href="#" class="btn vouchers">Vouchers</a></li>
-          <li class="text-center"><a href="#" class="btn affordability">Affordability</a></li>
-          <li class="text-center"><a href="#" class="btn dept-of-ed">Dept of Education</a></li>
-          <li class="divider"></li>
-          <li class="text-center"><a href="#" class="allbills">All Bills</a></li>
-        </ul>
+    <div id="issues" class="container-fluid col-md-8 col-md-offset-2">
+      <div class="dropdown text-right">
+        <button class="btn btn-default dropdown-toggle dropdown-menu-right" type="button" data-toggle="dropdown">
+          Filter Legislation by Issue
+          <span class="caret"></span>
+        </button>
+      <!--  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Issues<b class="caret"></b></a> -->
+          <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel">
+            <li><a href="#" class="btn funding">Funding</a></li>
+            <li><a href="#" class="btn vouchers">Vouchers</a></li>
+            <li><a href="#" class="btn affordability">Affordability</a></li>
+            <li><a href="#" class="btn dept-of-ed">Dept of Education</a></li>
+            <li class="divider"></li>
+            <li><a href="#" class="allbills">All Bills</a></li>
+          </ul>
+
       </div>
     </div>
 
@@ -107,6 +113,7 @@
       <div class="row">
         <div class="col-md-8 col-md-offset-2">
           <h2>Bills</h2>
+          <p>Browse bills in the United States Congress related to education.</p>
         </div>
       </div>
 
