@@ -1,7 +1,21 @@
+.jumbotron {
+  color: #eee;
+  background-color: #174c37;
+}
+
+.jumbotron .container {
+  height: 350px;
+}
 .dropdown-menu {
   margin-left: 13px;
 }
 
 .modal-header {
   padding:40px 50px;
+}
+
+.inline-header {
+  display: inline-block;
+  vertical-align: baseline;
+  margin-right: 12px;
 }

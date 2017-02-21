@@ -52,7 +52,12 @@ function update(req, res) {
     var correctActionItem = foundBill.actionItems.id(req.params.actionItemId);
     if (correctActionItem) {
       correctActionItem.title = req.body.title;
-      correctActionItem.description = req.body.description;
+      correctActionItem.rep1Name = req.body.rep1Name;
+      correctActionItem.rep2Name = req.body.rep2Name;
+      correctActionItem.rep3Name = req.body.rep3Name;
+      correctActionItem.rep1ActionUrl = req.body.rep1ActionUrl;
+      correctActionItem.rep2ActionUrl = req.body.rep2ActionUrl;
+      correctActionItem.rep3ActionUrl = req.body.rep3ActionUrl;
       correctActionItem.dueDate = req.body.dueDate;
       correctActionItem.status = req.body.status;
 

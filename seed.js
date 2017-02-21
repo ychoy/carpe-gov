@@ -5,7 +5,7 @@ billList.push({
               title: 'H.R. 899 - To terminate the Department of Education',
               summary: 'To terminate the Department of Education.',
               sponsor: 'Rep. Massie, Thomas [R-KY-4]',
-              textUrl: ' https://www.congress.gov/115/bills/hr899/BILLS-115hr899ih.pdf',
+              textUrl: 'https://www.congress.gov/115/bills/hr899/BILLS-115hr899ih.pdf',
               latestAction: '02/07/2017 Referred to the House Committee on Education and the Workforce',
               issues: ['Dept of Education']
             });
@@ -29,7 +29,7 @@ billList.push({
               title: 'H.R.675 - Empowering Parents to Invest in Choice Act of 2017',
               summary: "Empowering Parents to Invest in Choice Act of 2017. This bill amends the Internal Revenue Code to allow the payment of qualified elementary and secondary education expenses from a tax-exempt qualified tuition program (known as a 529 plan). (Currently, such plans only pay qualified higher education expenses.) Included as qualified elementary and secondary education expenses are expenses for: (1) tuition, fees, academic tutoring, special needs services, books, and supplies; (2) room and board, uniforms, transportation, and supplementary items and services; and (3) and computer technology or equipment, including Internet access. The bill also increases from $2,000s on the frequency of investment directions that a beneficiary or contributor may provide for a 529 or ABLE account, rebalancing investments among broad-based investment strategies established under the program is not an investment direction unless the beneficiary or contributor directs the specific investments within the strategies.",
               sponsor: 'Rep. Jenkins, Lynn [R-KS-2]',
-              textUrl: ' https://www.congress.gov/115/bills/hr529/BILLS-115hr529ih.pdf',
+              textUrl: 'https://www.congress.gov/115/bills/hr529/BILLS-115hr529ih.pdf',
               latestAction: '01/13/2017 Referred to the House Committee on Ways and Means.',
               issues: ['Affordability', 'Funding']
             });
@@ -54,7 +54,7 @@ actionItems.push({ title: 'Call Your Representative',
                    dueDate: 'February 21, 2017',
                    status: false
                  });
-actionItems.push({ title: 'Contact Your Representative',
+actionItems.push({ title: 'Email Your Representative',
                     rep1Name: 'Senator Dianne Feinstein',
                     rep2Name: 'Senator Kamala Harris',
                     rep3Name: 'Congressmember Zoe Lofgren',
