@@ -84,188 +84,157 @@ function handleUpdateActionItemsSave(event) {
    aactionItem.rep3ActionUrl = $(this).find('input.actionItem-rep3ActionUrl').val();
    aactionItem.dueDate = $(this).find('input.actionItem-dueDate').val();
    aactionItem.status = $(this).find('input.actionItem-status').val();
-
-   console.log('found updated data for actionItem: ', aactionItem);
    updatedActionItems.push(aactionItem);
-   console.log(updatedActionItems);
  });
- // at this point we should have an array of actionItems to PUT to the server
- // this is going to be a lot of requests and after all of them we have to update the page again
- // hide the modal and continue processing in the background
  $modal.modal('hide');
  updateMultipleActionItems(billId, updatedActionItems);
 }
 
 function updateMultipleActionItems(billId, actionItems) {
- // We're going to kick off as many PUT requests as we need - 1 per actionItemId
- // We'll keep track of the promises from each and once they are ALL done then
- //   we'll re-render the entire bill again.
- // We don't want to re-render BEFORE the PUT requests are complete because the
- // data we fetch back might not have all the updates in it yet!
- var url = '/api/bills/' + billId + '/actionItems/';
- var deferreds = [];
-
- actionItems.forEach(function(actionItem) {
-   var ajaxCall = $.ajax({
-     method: 'PUT',
-     url: url + actionItem._id,
-     data: actionItem,
-     error: function(err) { console.log('Error updating action item',
-     actionItem.title, err); }
-   });
-   deferreds.push(ajaxCall);
-   console.log(deferreds);
- });
-
- // wait for all the deferreds then, refetch and re-render the bill
- // the .apply here is allowing us to apply the stuff in the promises array
- $.when.apply(null, deferreds).always(function() {
-   console.log('all updates sent and received, time to refresh!');
-   console.log(arguments);
-   fetchAndReRenderBillWithId(billId);
- });
+  var url = '/api/bills/' + billId + '/actionItems/';
+  var deferreds = [];
+  actionItems.forEach(function(actionItem) {
+    var ajaxCall = $.ajax({
+      method: 'PUT',
+      url: url + actionItem._id,
+      data: actionItem,
+      error: function(err) { console.log('Error updating action item',
+      actionItem.title, err); }
+    });
+  deferreds.push(ajaxCall);
+  });
+  $.when.apply(null, deferreds).always(function() {
+    fetchAndReRenderBillWithId(billId);
+  });
 }
 
 function fetchAndReRenderBillWithId(billId) {
- $.get('/api/bills/' + billId, function(data) {
-   // remove the current instance of the bill from the page
-   $('div[data-bill-id=' + billId + ']').remove();
-   // re-render it with the new bill data (including actionItems)
-   renderBill(data);
- });
+  $.get('/api/bills/' + billId, function(data) {
+    // remove the current instance of the bill from the page
+    $('div[data-bill-id=' + billId + ']').remove();
+    // re-render it with the new bill data (including actionItems)
+    renderBill(data);
+  });
 }
 
 // when a delete button in the edit actionItems modal is clicked
 function handleDeleteActionItemClick(e) {
- e.preventDefault();  // this is a form!
-
-
- var actionItemId = $(this).data('ai-id');
- console.log(actionItemId);
- var billId = $(this).closest('form').data('bill-id');
-
- var url = '/api/bills/' + billId + '/actionItems/' + actionItemId;
- console.log('send DELETE ', url);
- $.ajax({
-   method: 'DELETE',
-   url: url,
-   success: handleActionItemDeleteResponse
- });
+  e.preventDefault();
+  var actionItemId = $(this).data('ai-id');
+  var billId = $(this).closest('form').data('bill-id');
+  var url = '/api/bills/' + billId + '/actionItems/' + actionItemId;
+  $.ajax({
+    method: 'DELETE',
+    url: url,
+    success: handleActionItemDeleteResponse
+  });
 }
 
 function handleActionItemDeleteResponse(data) {
- console.log('handleActionItemDeleteResponse got ', data);
- var actionItemId = data._id;
- var $formRow = $('form#' + actionItemId);
- // since billId isn't passed to this function, we'll deduce it from the page
- var billId = $formRow.data('bill-id');
- // remove that actionItem edit form from the page
- $formRow.remove();
- fetchAndReRenderBillWithId(billId);
+  var actionItemId = data._id;
+  var $formRow = $('form#' + actionItemId);
+  // since billId isn't passed to this function, we'll deduce it from the page
+  var billId = $formRow.data('bill-id');
+  // remove that actionItem edit form from the page
+  $formRow.remove();
+  fetchAndReRenderBillWithId(billId);
 }
 
 // when edit action items button clicked
 function handleEditActionItemsClick(e) {
- var $billRow = $(this).closest('.bill');
- var billId = $billRow.data('bill-id');
- console.log('edit action items clicked for ', billId);
- $.get('/api/bills/' + billId + "/actionItems", function(actionItems) {
-   console.log('got back action items: ', actionItems);
-   populateEditActionItemsModal(actionItems, billId);
-   // fire zee modal!
-   $('#editActionItemsModal').modal();
- });
+  var $billRow = $(this).closest('.bill');
+  var billId = $billRow.data('bill-id');
+  $.get('/api/bills/' + billId + "/actionItems", function(actionItems) {
+    populateEditActionItemsModal(actionItems, billId);
+    // fire zee modal!
+    $('#editActionItemsModal').modal();
+  });
 }
 
 // takes an array of action items and generates an EDIT form for them
 function populateEditActionItemsModal(actionItems, billId) {
- var editActionItemsFormsHtml = buildEditActionItemsForms(actionItems, billId);
- // find the modal's body and replace it with the generated html
- $('#editActionItemsModal').modal();
- $('#editActionItemsModalBody').html(editActionItemsFormsHtml);
+  var editActionItemsFormsHtml = buildEditActionItemsForms(actionItems, billId);
+  // find the modal's body and replace it with the generated html
+  $('#editActionItemsModal').modal();
+  $('#editActionItemsModalBody').html(editActionItemsFormsHtml);
 }
 
 function buildEditActionItemsForms(actionItems, billId) {
  // create a edit form for each action item, using the same billId for all of them
-
- var actionItemEditFormHtmlStrings = actionItems.map(function(actionItem){
-   return (`
-     <fieldset class='form-horizontal'>
-       <form class="form-group" id="${actionItem._id}" data-bill-id="${billId}" >
-         <label class="control-label col-md-6" for="actionItemTitle">
-           Title:
-         </label>
-         <div class="col-md-6">
-           <input type="text" class="form-control actionItem-title" value="${actionItem.title}">
-         </div>
-         <label class="control-label col-md-6" for="actionItemRep1Name">
-           Representative Name:
-         </label>
-         <div class="col-md-6">
-           <input type="text" class="form-control actionItem-rep1Name" value="${actionItem.rep1Name}">
-         </div>
-         <label class="control-label col-md-6" for="actionItemRep1ActionUrl">
-           Representative Action Link:
-         </label>
-         <div class="col-md-6">
-           <input type="text" class="form-control actionItem-rep1ActionUrl" value="${actionItem.rep1ActionUrl}">
-         </div>
-         <label class="control-label col-md-6" for="actionItemRep2Name">
-           Representative Name:
-         </label>
-         <div class="col-md-6">
-           <input type="text" class="form-control actionItem-rep2Name" value="${actionItem.rep2Name}">
-         </div>
-         <label class="control-label col-md-6" for="actionItemRep2ActionUrl">
-           Representative Action Link:
-         </label>
-         <div class="col-md-6">
-           <input type="text" class="form-control actionItem-rep2ActionUrl" value="${actionItem.rep2ActionUrl}">
-         </div>
-         <label class="control-label col-md-6" for="actionItemRep3Name">
-           Representative Name:
-         </label>
-         <div class="col-md-6">
-           <input type="text" class="form-control actionItem-rep3Name" value="${actionItem.rep3Name}">
-         </div>
-         <label class="control-label col-md-6" for="actionItemRep3ActionUrl">
-           Representative Action Link:
-         </label>
-         <div class="col-md-6">
-           <input type="text" class="form-control actionItem-rep3ActionUrl" value="${actionItem.rep3ActionUrl}">
-         </div>
-         <label class="control-label col-md-6" for="actionItemdueDate">
-           Due Date:
-         </label>
-         <div class="col-md-6">
-           <input type="text" class="form-control actionItem-dueDate" value="${actionItem.dueDate}">
-         </div>
-         <label class="control-label col-md-6" for="actionItemStatus">
-           Status:
-         </label>
-         <div class="col-md-6">
-           <input type="text" class="form-control actionItem-status" value="${actionItem.status}">
-         </div>
-         <div class="col-md-6">
-           <button class="btn btn-danger" data-ai-id="${actionItem._id}">x</button>
-         </div>
-       </form>
-    </fieldset>
-     <hr>
-     <br>
+  var actionItemEditFormHtmlStrings = actionItems.map(function(actionItem){
+    return (`
+       <fieldset class='form-horizontal'>
+         <form class="form-group" id="${actionItem._id}" data-bill-id="${billId}" >
+           <label class="control-label col-md-6" for="actionItemTitle">
+             Title:
+           </label>
+           <div class="col-md-6">
+             <input type="text" class="form-control actionItem-title" value="${actionItem.title}">
+           </div>
+           <label class="control-label col-md-6" for="actionItemRep1Name">
+             Representative Name:
+           </label>
+           <div class="col-md-6">
+             <input type="text" class="form-control actionItem-rep1Name" value="${actionItem.rep1Name}">
+           </div>
+           <label class="control-label col-md-6" for="actionItemRep1ActionUrl">
+             Representative Action Link:
+           </label>
+           <div class="col-md-6">
+             <input type="text" class="form-control actionItem-rep1ActionUrl" value="${actionItem.rep1ActionUrl}">
+           </div>
+           <label class="control-label col-md-6" for="actionItemRep2Name">
+             Representative Name:
+           </label>
+           <div class="col-md-6">
+             <input type="text" class="form-control actionItem-rep2Name" value="${actionItem.rep2Name}">
+           </div>
+           <label class="control-label col-md-6" for="actionItemRep2ActionUrl">
+             Representative Action Link:
+           </label>
+           <div class="col-md-6">
+             <input type="text" class="form-control actionItem-rep2ActionUrl" value="${actionItem.rep2ActionUrl}">
+           </div>
+           <label class="control-label col-md-6" for="actionItemRep3Name">
+             Representative Name:
+           </label>
+           <div class="col-md-6">
+             <input type="text" class="form-control actionItem-rep3Name" value="${actionItem.rep3Name}">
+           </div>
+           <label class="control-label col-md-6" for="actionItemRep3ActionUrl">
+             Representative Action Link:
+           </label>
+           <div class="col-md-6">
+             <input type="text" class="form-control actionItem-rep3ActionUrl" value="${actionItem.rep3ActionUrl}">
+           </div>
+           <label class="control-label col-md-6" for="actionItemdueDate">
+             Due Date:
+           </label>
+           <div class="col-md-6">
+             <input type="text" class="form-control actionItem-dueDate" value="${actionItem.dueDate}">
+           </div>
+           <label class="control-label col-md-6" for="actionItemStatus">
+             Status:
+           </label>
+           <div class="col-md-6">
+             <input type="text" class="form-control actionItem-status" value="${actionItem.status}">
+           </div>
+           <div class="col-md-6">
+             <button class="btn btn-danger" data-ai-id="${actionItem._id}">x</button>
+           </div>
+         </form>
+      </fieldset>
+       <hr>
+       <br>
    `);
- });
-
- return actionItemEditFormHtmlStrings.join(""); // combine all the forms into a single string
+  });
+  return actionItemEditFormHtmlStrings.join(""); // combine all the forms into a single string
 }
-
 
 //handles the click on the Edit button of each bill, renders edit bill form
 function handleBillEditClick(e){
    var $billRow = $(this).closest('.bill');
    var billId = $billRow.data('bill-id');
-   console.log('edit bill:', billId);
-
    // show the save changes/delete buttons
    $billRow.find('.save-bill').toggleClass('hidden');
    $billRow.find('.delete-bill').toggleClass('hidden');
@@ -292,94 +261,90 @@ function handleBillEditClick(e){
 
 // after editing the bill, when the save changes button is clicked
 function handleSaveChangesClick(e) {
- var billId = $(this).closest('.bill').data('bill-id');
- var $billRow = $('[data-bill-id=' + billId + ']');
- var data = {
-   title: $billRow.find('.edit-bill-title').val(),
-   summary: $billRow.find('.edit-bill-summary').val(),
-   sponsor: $billRow.find('.edit-bill-sponsor').val(),
-   textUrl: $billRow.find('.edit-bill-text-url').val(),
-   latestAction: $billRow.find('.edit-bill-latest-action').val(),
-   };
-
- console.log('PUTing data for bill', billId, 'with data', data);
-
- $.ajax({
-   method: 'PUT',
-   url: '/api/bills/' + billId,
-   data: data,
-   success: handleBillUpdatedResponse
- });
+  var billId = $(this).closest('.bill').data('bill-id');
+  var $billRow = $('[data-bill-id=' + billId + ']');
+  var data = {
+    title: $billRow.find('.edit-bill-title').val(),
+    summary: $billRow.find('.edit-bill-summary').val(),
+    sponsor: $billRow.find('.edit-bill-sponsor').val(),
+    textUrl: $billRow.find('.edit-bill-text-url').val(),
+    latestAction: $billRow.find('.edit-bill-latest-action').val(),
+  };
+  $.ajax({
+    method: 'PUT',
+    url: '/api/bills/' + billId,
+    data: data,
+    success: handleBillUpdatedResponse
+  });
 }
 
 //onsuccess function of put ajax call PUTing data for bill
 function handleBillUpdatedResponse(data) {
- var billId = data._id;
- $('[data-bill-id=' + billId + ']').remove();
- renderBill(data);
- $('[data-bill-id=' + billId + ']')[0].scrollIntoView();
+  var billId = data._id;
+  $('[data-bill-id=' + billId + ']').remove();
+  renderBill(data);
+  $('[data-bill-id=' + billId + ']')[0].scrollIntoView();
 }
 
 // when a delete button for an bill is clicked
 function handleDeleteBillClick(e) {
- var billId = $(this).parents('.bill').data('bill-id');
- $.ajax({
-   url: '/api/bills/' + billId,
-   method: 'DELETE',
-   success: handleDeleteBillSuccess
- });
+  var billId = $(this).parents('.bill').data('bill-id');
+  $.ajax({
+    url: '/api/bills/' + billId,
+    method: 'DELETE',
+    success: handleDeleteBillSuccess
+  });
 }
 
 // callback after DELETE /api/bills/:id
 function handleDeleteBillSuccess(data) {
- var deletedBillId = data._id;
- $('div[data-bill-id=' + deletedBillId + ']').remove();
+  var deletedBillId = data._id;
+  $('div[data-bill-id=' + deletedBillId + ']').remove();
 }
 
 // cancels edits in edit bills form and returns to homepage
 function handleCancelEditClick(e) {
- window.location.reload();
+  window.location.reload();
 }
 
-
+//gets bills and renders them to the page
 function getBillsAndRender(params) {
- // remove existing html slash add loader
- $('#bills').html('');
- $.ajax({
-   method: 'GET',
-   url: '/api/bills',
-   data: params,
-   success: renderMultipleBills
- });
+  // remove existing html slash add loader
+  $('#bills').html('');
+  $.ajax({
+    method: 'GET',
+    url: '/api/bills',
+    data: params,
+    success: renderMultipleBills
+  });
 }
-
 
 // initial onsuccess function to GET all bills and render them to page
 function renderMultipleBills(bills) {
- bills.forEach(function(bill) {
-   renderBill(bill);
- });
+  bills.forEach(function(bill) {
+    renderBill(bill);
+  });
 }
 
 function renderActionItem(actionItem){
- return `<span>
-         <p><h4>${actionItem.title}</h4></p>
-         <ul>
-           <li>
-              <strong>Contact ${actionItem.rep1Name}:</strong> ${actionItem.rep1ActionUrl}
-            </li>
-            <li>
-              <strong>Contact ${actionItem.rep2Name}:</strong> ${actionItem.rep2ActionUrl}
-            </li>
-            <li>
-              <strong>Contact ${actionItem.rep3Name}:</strong> ${actionItem.rep3ActionUrl}
-            </li>
-         </ul>
-         <br>
-         <p><strong>Due: </strong> ${actionItem.dueDate} </p>
-         <p><strong>Status: </strong> ${actionItem.status} </p>
-         <br>
-         </span>`
+  return `<span>
+            <p><h4>${actionItem.title}</h4></p>
+            <ul>
+              <li>
+                  <strong>Contact ${actionItem.rep1Name}:</strong> ${actionItem.rep1ActionUrl}
+              </li>
+              <li>
+                <strong>Contact ${actionItem.rep2Name}:</strong> ${actionItem.rep2ActionUrl}
+              </li>
+              <li>
+                <strong>Contact ${actionItem.rep3Name}:</strong> ${actionItem.rep3ActionUrl}
+              </li>
+            </ul>
+            <br>
+            <p><strong>Due: </strong> ${actionItem.dueDate} </p>
+            <p><strong>Status: </strong> ${actionItem.status} </p>
+            <br>
+          </span>`
 }
 
 // onsuccess function of POST which renders add bill form input to page
@@ -448,110 +413,98 @@ function renderBill(bill) {
       <!-- end one bill -->`);
 
     $('#bills').append(billHtml);
-
 }
-
 
 //filters bills by funding issue in dropdown menu
 function filterBillsByFunding(e){
- getBillsAndRender({
-   type: 'Funding'
- });
+  getBillsAndRender({
+    type: 'Funding'
+  });
 }
 
 //filters bills by vouchers issue in dropdown menu
 function filterBillsByVouchers(e){
- getBillsAndRender({
-   type: 'Vouchers'
- });
+  getBillsAndRender({
+    type: 'Vouchers'
+  });
 }
 
 //filters bills by affordability issue in dropdown menu
 function filterBillsByAffordability(e){
- getBillsAndRender({
-   type: 'Affordability'
- });
+  getBillsAndRender({
+    type: 'Affordability'
+  });
 }
 
 //filters bills by dept-of-ed issue in dropdown menu
 function filterBillsByDeptOfEd(e){
- getBillsAndRender({
-   type: 'Dept of Education'
- });
+  getBillsAndRender({
+    type: 'Dept of Education'
+  });
 }
 
 //gets all bills when all bills is clicked in issues dropdown
 function getAllBills(e){
- window.location.reload();
+  window.location.reload();
 }
 
 //handles close add bill form click by refreshing and hiding form
 function handleCloseAddBillClick(e){
- $('legend').nextAll('div').toggle("hidden");
- $('#bill-form form')[0].reset();
+  $('legend').nextAll('div').toggle("hidden");
+  $('#bill-form form')[0].reset();
 }
 
 // when the add action item button is clicked, display the modal
 function handleAddActionItemClick(e) {
- console.log('add-actionItem clicked!');
- var currentBillId = $(this).closest('.bill').data('bill-id');
- console.log('id',currentBillId);
- $('#actionItemModal').data('bill-id', currentBillId);
- $('#actionItemModal').modal();  // display the modal
+  var currentBillId = $(this).closest('.bill').data('bill-id');
+  $('#actionItemModal').data('bill-id', currentBillId);
+  $('#actionItemModal').modal();  // display the modal
 }
 
 // when the action item modal submit button is clicked:
 function handleNewActionItemSubmit(e) {
- e.preventDefault();
- var $modal = $('#actionItemModal');
- var $actionItemTitleField = $modal.find('#actionItemTitle');
- var $actionItemRep1NameField = $modal.find('#actionItemRep1Name');
- var $actionItemRep2NameField = $modal.find('#actionItemRep2Name');
- var $actionItemRep3NameField = $modal.find('#actionItemRep3Name');
- var $actionItemRep1ActionUrlField = $modal.find('#actionItemRep1ActionUrl');
- var $actionItemRep2ActionUrlField = $modal.find('#actionItemRep2ActionUrl');
- var $actionItemRep3ActionUrlField = $modal.find('#actionItemRep3ActionUrl');
- var $actionItemDueDateField = $modal.find('#actionItemDueDate');
- var $actionItemStatusField = $modal.find('#actionItemStatus');
+  e.preventDefault();
+  var $modal = $('#actionItemModal');
+  var $actionItemTitleField = $modal.find('#actionItemTitle');
+  var $actionItemRep1NameField = $modal.find('#actionItemRep1Name');
+  var $actionItemRep2NameField = $modal.find('#actionItemRep2Name');
+  var $actionItemRep3NameField = $modal.find('#actionItemRep3Name');
+  var $actionItemRep1ActionUrlField = $modal.find('#actionItemRep1ActionUrl');
+  var $actionItemRep2ActionUrlField = $modal.find('#actionItemRep2ActionUrl');
+  var $actionItemRep3ActionUrlField = $modal.find('#actionItemRep3ActionUrl');
+  var $actionItemDueDateField = $modal.find('#actionItemDueDate');
+  var $actionItemStatusField = $modal.find('#actionItemStatus');
 
  // get data from modal fields
  // note the server expects the keys to be the action item attributes, so we use those.
- var dataToPost = {
-   title: $actionItemTitleField.val(),
-   rep1Name: $actionItemRep1NameField.val(),
-   rep2Name: $actionItemRep2NameField.val(),
-   rep3Name: $actionItemRep3NameField.val(),
-   rep1ActionUrl: $actionItemRep1ActionUrlField.val(),
-   rep2ActionUrl: $actionItemRep2ActionUrlField.val(),
-   rep3ActionUrl: $actionItemRep3ActionUrlField.val(),
-   dueDate: $actionItemDueDateField.val(),
-   status: $actionItemStatusField.val()
- };
- var billId = $modal.data('billId');
-
- console.log('retrieved title:', actionItemTitle, ' Representative names:',
- actionItemRep1Name, actionItemRep2Name, actionItemRep3Name,
- ' Representative action urls:', actionItemRep1ActionUrl, actionItemRep2ActionUrl,
- actionItemRep3ActionUrl,  ' due date:', actionItemDueDate,
- 'status:', actionItemStatus, ' for bill with id: ', billId);
- // POST to SERVER
- var actionItemPostToServerUrl = '/api/bills/'+ billId + '/actionItems';
- $.post(actionItemPostToServerUrl, dataToPost, function(data) {
-   console.log('received data from post to /actionItems:', data);
-   // clear form
-   $actionItemTitleField.val(''),
-   $actionItemRep1NameField.val(''),
-   $actionItemRep2NameField.val(''),
-   $actionItemRep3NameField.val(''),
-   $actionItemRep1ActionUrlField.val(''),
-   $actionItemRep2ActionUrlField.val(''),
-   $actionItemRep3ActionUrlField.val(''),
-   $actionItemDueDateField.val(''),
-   $actionItemStatusField.val('')
-
+  var dataToPost = {
+    title: $actionItemTitleField.val(),
+    rep1Name: $actionItemRep1NameField.val(),
+    rep2Name: $actionItemRep2NameField.val(),
+    rep3Name: $actionItemRep3NameField.val(),
+    rep1ActionUrl: $actionItemRep1ActionUrlField.val(),
+    rep2ActionUrl: $actionItemRep2ActionUrlField.val(),
+    rep3ActionUrl: $actionItemRep3ActionUrlField.val(),
+    dueDate: $actionItemDueDateField.val(),
+    status: $actionItemStatusField.val()
+  };
+  var billId = $modal.data('billId');
+  // POST to SERVER
+  var actionItemPostToServerUrl = '/api/bills/'+ billId + '/actionItems';
+  $.post(actionItemPostToServerUrl, dataToPost, function(data) {
+    // clear form
+    $actionItemTitleField.val(''),
+    $actionItemRep1NameField.val(''),
+    $actionItemRep2NameField.val(''),
+    $actionItemRep3NameField.val(''),
+    $actionItemRep1ActionUrlField.val(''),
+    $actionItemRep2ActionUrlField.val(''),
+    $actionItemRep3ActionUrlField.val(''),
+    $actionItemDueDateField.val(''),
+    $actionItemStatusField.val('')
    // close modal
-   $modal.modal('hide');
+    $modal.modal('hide');
    // update the correct bill to show new action item
-   fetchAndReRenderBillWithId(billId);
- });
+    fetchAndReRenderBillWithId(billId);
+  });
 }
