@@ -69,9 +69,7 @@ function handleUpdateActionItemsSave(event) {
  var billId = $modal.find('form').data('bill-id');
 
  var updatedActionItems = [];
- // see https://api.jquery.com/each/
    $modal.find('form').each(function () {
-
    // in here this is a form element
    var aactionItem = {};
    aactionItem._id = $(this).attr('id');
@@ -309,7 +307,7 @@ function handleCancelEditClick(e) {
 
 //gets bills and renders them to the page
 function getBillsAndRender(params) {
-  // remove existing html slash add loader
+  // remove existing html
   $('#bills').html('');
   $.ajax({
     method: 'GET',
