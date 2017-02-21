@@ -1,7 +1,7 @@
 # CarpeGov
-Civic engagement tool for administrators to store, maintain and track action taken on congressional bills
+Civic engagement tool for administrators to store, maintain and track action taken on congressional bills related to education.
 
-[CarpeGov](http://carpegov.herokuapp.com/ "CarpeGov Homepage")
+Checkout the application here: [CarpeGov](http://carpegov.herokuapp.com/ "CarpeGov Homepage")
 
 ##Technologies Used
 
@@ -34,4 +34,14 @@ Civic engagement tool for administrators to store, maintain and track action tak
 * Extend to API on congressional bills and representatives
 * Login
 
-![CarpeGov Screenshot](# "CarpeGov Homepage")
+Demo - Create and Edit Action Items
+![CarpeGov Create and Edit Action Items Demo](public/images/CGdemo_actionItems.gif "demo - create and edit action items")
+
+Demo - Add Bill
+![CarpeGov Add Bill Demo](public/images/CGdemo_addBill.gif "demo - add bill")
+
+Demo - Edit Bill
+![CarpeGov Edit Bill Demo](public/images/CGdemo_editBill.gif "demo - edit bill")
+
+Demo - Filter Bills
+![CarpeGov Filter Bills Demo](public/images/CGdemo_filter.gif "demo - filter bills")
