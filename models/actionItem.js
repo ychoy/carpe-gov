@@ -3,7 +3,10 @@ var Schema = mongoose.Schema;
 
 
 var actionItemSchema = new Schema({
-  title: String,
+  title:{
+    type: String,
+    required: [true, "Please enter Title"]
+  },
   rep1Name: String,
   rep2Name: String,
   rep3Name: String,

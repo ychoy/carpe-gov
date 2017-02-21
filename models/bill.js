@@ -4,7 +4,10 @@ var Schema = mongoose.Schema;
 var actionItem = require('./actionItem');
 
 var BillSchema = new Schema({
-  title: String,
+  title:{
+    type: String,
+    required: [true, "Please enter Title"]
+  },
   summary: String,
   sponsor: String,
   textUrl: String,
