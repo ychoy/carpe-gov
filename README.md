@@ -28,24 +28,28 @@ Checkout the application here: [CarpeGov](http://carpegov.herokuapp.com/ "CarpeG
 * Make the bills searchable by text
 * Make filters dropdown update based on new issues added
 * Linking phone and email to action items
-* Changing status of complete and
+* Status as a button to toggle Complete or Incomplete
 * Frontend validation
 * Backend validation
 * Extend to API on congressional bills and representatives
-* Login
+* Login for administrators and users
+* Dashboard to track action items
+* Expanding models e.g. archive, users, representatives
 
-Demo - Create and Edit Action Items
+##Demo
+
+Create and Edit Action Items
 
 ![CarpeGov Create and Edit Action Items Demo](public/images/CGdemo_actionItems.gif "demo - create and edit action items")
 
-Demo - Add Bill
+Add Bill
 
 ![CarpeGov Add Bill Demo](public/images/CGdemo_addBill.gif "demo - add bill")
 
-Demo - Edit Bill
+Edit Bill
 
 ![CarpeGov Edit Bill Demo](public/images/CGdemo_editBill.gif "demo - edit bill")
 
-Demo - Filter Bills
+Filter Bills
 
 ![CarpeGov Filter Bills Demo](public/images/CGdemo_filter.gif "demo - filter bills")
