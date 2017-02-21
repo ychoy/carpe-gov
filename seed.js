@@ -42,7 +42,6 @@ billList.push({
               issues: ['Student Loans', 'Funding']
 });
 
-
 var actionItems = [];
 
 actionItems.push({ title: 'Call Your Representative',
@@ -69,8 +68,6 @@ billList.forEach(function(bill) {
 db.bill.remove({}, function(err, bills){
   db.bill.create(billList, function(err, bills){
     if (err) { return console.log('ERROR', err); }
-    console.log("all bills:", bills);
-    console.log("created", bills.length, "bills");
     process.exit();
   });
 });
