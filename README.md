@@ -3,26 +3,25 @@ Civic engagement tool for administrators to store, maintain and track action tak
 
 Checkout the application here: [CarpeGov](http://carpegov.herokuapp.com/ "CarpeGov Homepage")
 
-##Technologies Used
+## Technologies Used
 
-* Express API
-* RESTful Routes
+* MongoDB
+* Node.js
+* Express
 * AJAX
 * jQuery
-* Templating
-* MongoDB
-* Bootstrap  
+* Bootstrap
 * Heroku
 
 
-##Existing Features
+## Existing Features
 
 * Admin can get, post, update and delete bills
-* Admin can attach and edit action items to each bill
+* Admin can add, associate, edit and remove  action items related to each bill
 * Bills can be filtered via dropdown issues menu
 
 
-##Planned Features
+## Planned Features
 
 * Make it so user can add issues to new or existing bills
 * Make the bills searchable by text
@@ -36,20 +35,30 @@ Checkout the application here: [CarpeGov](http://carpegov.herokuapp.com/ "CarpeG
 * Dashboard to track action items
 * Expanding models e.g. archive, users, representatives
 
-##Demo
+## Demo
 
-Create and Edit Action Items
+**Create and Edit Action Items**
 
 ![CarpeGov Create and Edit Action Items Demo](public/images/CGdemo_actionItems.gif "demo - create and edit action items")
 
-Add Bill
+**Add Bill**
 
 ![CarpeGov Add Bill Demo](public/images/CGdemo_addBill.gif "demo - add bill")
 
-Edit Bill
+**Edit Bill**
 
 ![CarpeGov Edit Bill Demo](public/images/CGdemo_editBill.gif "demo - edit bill")
 
-Filter Bills
+**Filter Bills**
 
 ![CarpeGov Filter Bills Demo](public/images/CGdemo_filter.gif "demo - filter bills")
+
+## License
+
+GNU General Public License
+
+## Built by
+
+**Yan-Yin Choy**, *Developer* - [Github](http://github.com/ychoy)
+**Weston Dombroski**, *Developer* -[Github](http://github.com/westondombroski)
+
