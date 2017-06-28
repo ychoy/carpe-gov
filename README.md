@@ -60,5 +60,6 @@ GNU General Public License
 ## Built by
 
 **Yan-Yin Choy**, *Developer* - [Github](http://github.com/ychoy)
+
 **Weston Dombroski**, *Developer* -[Github](http://github.com/westondombroski)
 
